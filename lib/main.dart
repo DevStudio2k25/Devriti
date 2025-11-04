@@ -23,6 +23,22 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  // Hide system UI (status bar & navigation bar) - Immersive mode
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.immersiveSticky,
+    overlays: [],
+  );
+
+  // Set system UI overlay style
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
+
   // Initialize Hive for local storage
   await Hive.initFlutter();
 
