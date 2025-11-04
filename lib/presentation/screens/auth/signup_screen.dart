@@ -168,7 +168,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                               const SizedBox(height: AppSpacing.lg),
                               DropdownButtonFormField<String>(
-                                value: _selectedAgeGroup,
+                                initialValue: _selectedAgeGroup,
                                 decoration: InputDecoration(
                                   labelText: '${l10n.ageGroup} (Optional)',
                                   prefixIcon: const Icon(Icons.cake),

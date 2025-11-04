@@ -168,7 +168,7 @@ class EmergencyScreen extends StatelessWidget {
                   ),
                 ),
               );
-            }).toList(),
+            }),
 
             const SizedBox(height: AppSpacing.xxl),
 
