@@ -99,8 +99,8 @@ static const String geminiApiKey = 'YOUR_NEW_API_KEY_HERE';
 ```
 Testing Gemini API with key: AIzaSyDZYD...
 
-Trying model: gemini-1.5-pro
-✅ SUCCESS with gemini-1.5-pro!
+Trying model: gemini-2.0-flash
+✅ SUCCESS with gemini-2.0-flash!
 Response: Hello from Gemini!
 ```
 

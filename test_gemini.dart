@@ -6,20 +6,20 @@ void main() async {
 
   print('Testing Gemini API with key: ${apiKey.substring(0, 15)}...\n');
 
-  // Try gemini-1.5-pro
+  // Try gemini-2.0-flash
   try {
-    print('Trying model: gemini-1.5-pro');
-    final model = GenerativeModel(model: 'gemini-1.5-pro', apiKey: apiKey);
+    print('Trying model: gemini-2.0-flash');
+    final model = GenerativeModel(model: 'gemini-2.0-flash', apiKey: apiKey);
 
     final response = await model.generateContent([
       Content.text('Say "Hello from Gemini!"'),
     ]);
 
-    print('✅ SUCCESS with gemini-1.5-pro!');
+    print('✅ SUCCESS with gemini-2.0-flash!');
     print('Response: ${response.text}\n');
     return;
   } catch (e) {
-    print('❌ gemini-1.5-pro failed: $e\n');
+    print('❌ gemini-2.0-flash failed: $e\n');
   }
 
   // Try gemini-pro
