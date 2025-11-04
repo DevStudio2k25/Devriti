@@ -25,9 +25,24 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
+    _initializeChat();
+  }
+
+  Future<void> _initializeChat() async {
+    // ignore: avoid_print
+    print('🎬 [CHAT] Initializing chat screen with Gemini AI');
+
+    // Initialize repository first
+    final repository = ChatRepository();
+    await repository.init();
+
+    // ignore: avoid_print
+    print('✅ [CHAT] Repository initialized');
+
     // Using Gemini AI for intelligent responses
-    _chatService = GeminiChatService(ChatRepository(), EnvConfig.geminiApiKey);
-    _loadMessageHistory();
+    _chatService = GeminiChatService(repository, EnvConfig.geminiApiKey);
+
+    await _loadMessageHistory();
     _addWelcomeMessage();
   }
 
@@ -69,11 +84,20 @@ class _ChatScreenState extends State<ChatScreen> {
     });
 
     try {
+      // ignore: avoid_print
+      print('📤 [CHAT] Sending message to Gemini: $text');
+
       // Send message to Gemini and get response
       await _chatService.sendMessage(text);
 
+      // ignore: avoid_print
+      print('📥 [CHAT] Message sent, loading history...');
+
       // Load updated message history
       final history = await _chatService.getMessageHistory();
+
+      // ignore: avoid_print
+      print('📋 [CHAT] History loaded: ${history.length} messages');
 
       setState(() {
         _messages.clear();
@@ -83,6 +107,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
       _scrollToBottom();
     } catch (e) {
+      // ignore: avoid_print
+      print('❌ [CHAT] Error in _sendMessage: $e');
+
       // Fallback response if Gemini fails
       final userMessage = MessageModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),

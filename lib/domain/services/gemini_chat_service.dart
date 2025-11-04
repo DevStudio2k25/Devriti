@@ -13,9 +13,14 @@ class GeminiChatService {
   late final ChatSession _chatSession;
 
   GeminiChatService(this._chatRepository, String apiKey) {
+    // ignore: avoid_print
+    print(
+      '🚀 [GEMINI] Initializing Gemini 2.0 Flash with API key: ${apiKey.substring(0, 20)}...',
+    );
+
     // Initialize Gemini model
     _model = GenerativeModel(
-      model: 'gemini-2.0-flash-exp',
+      model: 'gemini-2.0-flash',
       apiKey: apiKey,
       generationConfig: GenerationConfig(
         temperature: 0.7,
@@ -61,6 +66,9 @@ Remember: You're a supportive friend, not a therapist.''',
   /// Send message and get AI response
   Future<MessageModel> sendMessage(String text) async {
     try {
+      // ignore: avoid_print
+      print('🔵 [GEMINI] Sending message: $text');
+
       // Create user message
       final userMessage = MessageModel(
         id: _uuid.v4(),
@@ -72,10 +80,16 @@ Remember: You're a supportive friend, not a therapist.''',
       await _chatRepository.saveMessage(userMessage);
       _messageController.add(userMessage);
 
+      // ignore: avoid_print
+      print('🔵 [GEMINI] Waiting for Gemini response...');
+
       // Get Gemini response
       final response = await _chatSession.sendMessage(Content.text(text));
       final aiText =
           response.text ?? 'I\'m here to listen. Please tell me more.';
+
+      // ignore: avoid_print
+      print('✅ [GEMINI] Response received: $aiText');
 
       // Analyze emotion from user text
       final emotion = _analyzeEmotion(text);
@@ -93,8 +107,14 @@ Remember: You're a supportive friend, not a therapist.''',
       await _chatRepository.saveMessage(aiMessage);
       _messageController.add(aiMessage);
 
+      // ignore: avoid_print
+      print('✅ [GEMINI] Message saved and sent to UI');
+
       return aiMessage;
     } catch (e) {
+      // ignore: avoid_print
+      print('❌ [GEMINI] Error: $e');
+
       // Fallback response if API fails
       final fallbackMessage = MessageModel(
         id: _uuid.v4(),

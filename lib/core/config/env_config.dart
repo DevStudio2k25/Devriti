@@ -17,7 +17,7 @@ class EnvConfig {
   });
 
   /// Gemini AI API Key
-  static const String geminiApiKey = 'AIzaSyBm4g99em2hOMm7pD4MGAzUiLNm-nlg_fE';
+  static const String geminiApiKey = 'AIzaSyAV8JN9ftZcDQAeLJwIDAaKLjk07ibwm5M';
 
   /// Development configuration
   static const EnvConfig development = EnvConfig(

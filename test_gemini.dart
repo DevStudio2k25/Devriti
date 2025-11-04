@@ -3,7 +3,7 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 void main() async {
-  const apiKey = 'AIzaSyBm4g99em2hOMm7pD4MGAzUiLNm-nlg_fE';
+  const apiKey = 'AIzaSyAV8JN9ftZcDQAeLJwIDAaKLjk07ibwm5M';
 
   print('Testing Gemini API with key: ${apiKey.substring(0, 15)}...\n');
 
