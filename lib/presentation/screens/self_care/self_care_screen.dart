@@ -208,8 +208,8 @@ class _BreathingExerciseTabState extends State<BreathingExerciseTab>
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
                     colors: [
-                      AppColors.skyBlue.withOpacity(0.6),
-                      AppColors.pastelGreen.withOpacity(0.6),
+                      AppColors.skyBlue.withValues(alpha: 0.6),
+                      AppColors.pastelGreen.withValues(alpha: 0.6),
                     ],
                   ),
                 ),

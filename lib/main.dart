@@ -8,11 +8,9 @@ import 'core/constants/app_colors.dart';
 import 'core/theme/app_theme.dart';
 import 'core/navigation/app_router.dart';
 import 'core/localization/app_localizations.dart';
-import 'presentation/providers/auth_provider.dart';
 import 'presentation/providers/theme_provider.dart';
 import 'presentation/providers/language_provider.dart';
-import 'presentation/screens/onboarding/welcome_screen.dart';
-import 'data/models/user_model.dart';
+import 'presentation/screens/home/home_screen.dart';
 import 'data/models/message_model.dart';
 import 'data/models/mood_entry_model.dart';
 
@@ -25,18 +23,12 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  // Initialize Hive
+  // Initialize Hive for local storage
   await Hive.initFlutter();
 
   // Register Hive adapters
-  Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(MessageModelAdapter());
   Hive.registerAdapter(MoodEntryModelAdapter());
-
-  // TODO: Initialize Firebase
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
 
   runApp(const DevritiApp());
 }
@@ -51,7 +43,6 @@ class DevritiApp extends StatefulWidget {
 class _DevritiAppState extends State<DevritiApp> {
   late ThemeProvider _themeProvider;
   late LanguageProvider _languageProvider;
-  late AuthProvider _authProvider;
   bool _isInitialized = false;
 
   @override
@@ -61,7 +52,6 @@ class _DevritiAppState extends State<DevritiApp> {
   }
 
   Future<void> _initializeProviders() async {
-    _authProvider = AuthProvider();
     _themeProvider = ThemeProvider();
     _languageProvider = LanguageProvider();
 
@@ -112,7 +102,6 @@ class _DevritiAppState extends State<DevritiApp> {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: _authProvider),
         ChangeNotifierProvider.value(value: _themeProvider),
         ChangeNotifierProvider.value(value: _languageProvider),
       ],
@@ -133,7 +122,7 @@ class _DevritiAppState extends State<DevritiApp> {
               GlobalCupertinoLocalizations.delegate,
             ],
             onGenerateRoute: AppRouter.generateRoute,
-            home: const WelcomeScreen(),
+            home: const HomeScreen(), // Direct to home, no login!
           );
         },
       ),

@@ -1,5 +1,5 @@
 name: ksnh
-description: "DEVRITI - Your Mental Health Companion. A comprehensive mental health support app providing AI chat, mood tracking, self-care tools, and professional help."
+description: "DEVRITI - Your Mental Health Companion. Instant AI-powered mental health support with no login required. Chat, track mood, access self-care tools, and get emergency help immediately."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -44,16 +44,6 @@ dependencies:
   # Network & API
   dio: ^5.4.0
   http: ^1.1.2
-
-  # Firebase
-  firebase_core: ^2.24.2
-  firebase_auth: ^4.15.3
-  firebase_analytics: ^10.8.0
-  firebase_crashlytics: ^3.4.9
-  cloud_firestore: ^4.14.0
-
-  # Authentication
-  google_sign_in: ^6.2.1
 
   # Location & Maps
   geolocator: ^10.1.0

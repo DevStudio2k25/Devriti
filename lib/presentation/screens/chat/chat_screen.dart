@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_spacing.dart';
 import '../../../core/localization/app_localizations.dart';
-// import '../../../core/config/env_config.dart'; // For Gemini
+import '../../../core/config/env_config.dart';
 import '../../../data/models/message_model.dart';
 import '../../../data/repositories/chat_repository.dart';
-import '../../../domain/services/chat_service.dart';
-// import '../../../domain/services/gemini_chat_service.dart'; // Enable after API is activated
+import '../../../domain/services/gemini_chat_service.dart';
 import '../../widgets/chat/chat_bubble.dart';
 import '../../widgets/chat/typing_indicator.dart';
 
@@ -21,13 +20,13 @@ class _ChatScreenState extends State<ChatScreen> {
   final _scrollController = ScrollController();
   final List<MessageModel> _messages = [];
   bool _isTyping = false;
-  late ChatService _chatService; // Using basic chatbot temporarily
+  late GeminiChatService _chatService; // Using Gemini AI!
 
   @override
   void initState() {
     super.initState();
-    // Using improved ChatService with context-aware responses
-    _chatService = ChatService(ChatRepository());
+    // Using Gemini AI for intelligent responses
+    _chatService = GeminiChatService(ChatRepository(), EnvConfig.geminiApiKey);
     _loadMessageHistory();
     _addWelcomeMessage();
   }
@@ -49,7 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final welcomeMessage = MessageModel(
       id: 'welcome',
       text:
-          "Hello! I'm DEVRITI, your mental health companion. How are you feeling today?",
+          "Namaste! 🙏 I'm DEVRITI, your mental health companion powered by AI. I'm here to listen and support you - no login needed, completely private. How are you feeling today?",
       messageType: MessageType.ai.index,
       timestamp: DateTime.now(),
       emotionState: EmotionState.calm.index,
@@ -84,9 +83,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
       _scrollToBottom();
     } catch (e) {
-      // Log error for debugging
-      print('Gemini API Error: $e');
-
       // Fallback response if Gemini fails
       final userMessage = MessageModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -173,7 +169,7 @@ class _ChatScreenState extends State<ChatScreen> {
               color: Theme.of(context).cardColor,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, -2),
                 ),

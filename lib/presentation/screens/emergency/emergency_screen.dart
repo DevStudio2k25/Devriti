@@ -51,7 +51,7 @@ class EmergencyScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppSpacing.radiusLarge),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.emergencyRed.withOpacity(0.4),
+                    color: AppColors.emergencyRed.withValues(alpha: 0.4),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -175,7 +175,7 @@ class EmergencyScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(AppSpacing.lg),
               decoration: BoxDecoration(
-                color: AppColors.skyBlue.withOpacity(0.1),
+                color: AppColors.skyBlue.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppSpacing.radiusMedium),
               ),
               child: const Text(

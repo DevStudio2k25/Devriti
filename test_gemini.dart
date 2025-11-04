@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 // Quick test script to verify Gemini API
 import 'package:google_generative_ai/google_generative_ai.dart';
 

@@ -1,19 +1,21 @@
-# Sukoon - Mental Health Companion App
+# DEVRITI - Mental Health Companion App
 
-**"You're not alone — Sukoon is here for you"**
+**"Instant help, no login needed — DEVRITI is here for you"** 💙
 
-Sukoon is a comprehensive mental health support application built with Flutter, designed to provide users with accessible, compassionate, and immediate support for their emotional well-being.
+DEVRITI is an emergency-ready mental health support application built with Flutter. No signup, no login, no barriers - just immediate AI-powered support when you need it most.
 
-## Features
+## Key Features
 
-- 🤖 **AI Chat Companion** - Empathetic AI-powered conversations
-- 😊 **Mood Tracking** - Track and analyze your emotional patterns
+- 🤖 **AI Chat Companion** - Gemini 2.0 powered empathetic conversations (NO LOGIN!)
+- 😊 **Mood Tracking** - Track and analyze your emotional patterns locally
 - 🧘 **Self-Care Tools** - Relaxation sounds, breathing exercises, journaling, and meditation
-- 👨‍⚕️ **Professional Connect** - Connect with verified therapists and counselors
-- 🚨 **Emergency Help** - Quick access to helplines and emergency contacts
+- 👨‍⚕️ **Professional Connect** - Direct access to therapists and counselors
+- 🚨 **Emergency Help** - One-tap access to helplines and emergency contacts
 - 📊 **Progress Reports** - Visualize your mental health journey
+- 🔒 **100% Private** - All data stored locally on your device
 - 🌙 **Dark Mode** - Comfortable viewing in any lighting
 - 🌐 **Multi-language** - Support for English and Hindi
+- ⚡ **Instant Access** - No authentication barriers in emergencies
 
 ## Project Structure
 
@@ -43,7 +45,7 @@ lib/
 - Flutter SDK (3.x or higher)
 - Dart SDK (3.x or higher)
 - Android Studio / VS Code
-- Firebase account (for authentication and backend)
+- Gemini API Key (get from Google AI Studio)
 
 ### Installation
 
@@ -58,13 +60,10 @@ cd sukoon
 flutter pub get
 ```
 
-3. Configure Firebase:
-```bash
-# Install FlutterFire CLI
-dart pub global activate flutterfire_cli
-
-# Configure Firebase for your project
-flutterfire configure
+3. Configure Gemini API:
+```dart
+// Update lib/core/config/env_config.dart
+static const String geminiApiKey = 'YOUR_API_KEY_HERE';
 ```
 
 4. Run the app:
@@ -118,13 +117,12 @@ flutter test --coverage
 ## Dependencies
 
 Key packages used in this project:
+- `google_generative_ai` - Gemini AI integration
 - `provider` - State management
-- `hive` - Local database
-- `firebase_auth` - Authentication
-- `firebase_firestore` - Cloud database
+- `hive` - Local database (no cloud!)
 - `audioplayers` - Audio playback
 - `fl_chart` - Charts and graphs
-- `geolocator` - Location services
+- `url_launcher` - Emergency calls
 - `lottie` - Animations
 
 See `pubspec.yaml` for complete list.

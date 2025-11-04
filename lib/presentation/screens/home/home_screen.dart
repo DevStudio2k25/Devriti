@@ -1,11 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/constants/app_spacing.dart';
 import '../../../core/localization/app_localizations.dart';
-import '../../providers/auth_provider.dart';
 import '../../widgets/home/feature_card.dart';
 import '../../widgets/home/quick_stats_card.dart';
 
@@ -20,8 +18,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final authProvider = context.watch<AuthProvider>();
-    final userName = authProvider.userName ?? 'Guest';
+    const userName = 'Friend'; // No auth needed!
 
     return Scaffold(
       body: Container(
@@ -82,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(AppSpacing.lg),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(
                             AppSpacing.radiusMedium,
                           ),

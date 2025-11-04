@@ -2,18 +2,15 @@
 class AppConstants {
   // App Info
   static const String appName = 'DEVRITI';
-  static const String appTagline = "You're not alone — DEVRITI is here for you";
+  static const String appTagline =
+      "Instant help, no login needed — DEVRITI is here for you";
   static const String appVersion = '1.0.0';
 
-  // Storage Keys
-  static const String keyFirstLaunch = 'first_launch';
+  // Storage Keys (Local only - No Auth!)
   static const String keyLanguage = 'language';
   static const String keyThemeMode = 'theme_mode';
-  static const String keyUserId = 'user_id';
-  static const String keyIsGuest = 'is_guest';
 
-  // Hive Box Names
-  static const String boxUser = 'user_box';
+  // Hive Box Names (Local Storage)
   static const String boxMood = 'mood_box';
   static const String boxChat = 'chat_box';
   static const String boxJournal = 'journal_box';

@@ -65,7 +65,7 @@ class _DoctorConnectScreenState extends State<DoctorConnectScreen> {
         children: [
           Container(
             padding: const EdgeInsets.all(AppSpacing.lg),
-            color: AppColors.skyBlue.withOpacity(0.1),
+            color: AppColors.skyBlue.withValues(alpha: 0.1),
             child: Column(
               children: [
                 Text(
@@ -203,7 +203,7 @@ class _DoctorConnectScreenState extends State<DoctorConnectScreen> {
           Container(
             padding: const EdgeInsets.all(AppSpacing.lg),
             decoration: BoxDecoration(
-              color: AppColors.pastelGreen.withOpacity(0.2),
+              color: AppColors.pastelGreen.withValues(alpha: 0.2),
             ),
             child: Text(
               l10n.reachingOutIsStrength,

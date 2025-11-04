@@ -87,7 +87,7 @@ class _MoodTrackerScreenState extends State<MoodTrackerScreen> {
                       height: 60,
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? AppColors.skyBlue.withOpacity(0.2)
+                            ? AppColors.skyBlue.withValues(alpha: 0.2)
                             : Colors.transparent,
                         shape: BoxShape.circle,
                         border: Border.all(

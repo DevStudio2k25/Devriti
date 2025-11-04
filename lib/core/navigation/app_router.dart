@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../presentation/screens/onboarding/welcome_screen.dart';
-import '../../presentation/screens/auth/login_screen.dart';
-import '../../presentation/screens/auth/signup_screen.dart';
 import '../../presentation/screens/home/home_screen.dart';
 import '../../presentation/screens/chat/chat_screen.dart';
 import '../../presentation/screens/mood/mood_tracker_screen.dart';
@@ -11,13 +8,9 @@ import '../../presentation/screens/emergency/emergency_screen.dart';
 import '../../presentation/screens/reports/reports_screen.dart';
 import '../../presentation/screens/settings/settings_screen.dart';
 
-/// App routes
+/// App routes - No auth needed!
 class AppRoutes {
-  static const String splash = '/';
-  static const String onboarding = '/onboarding';
-  static const String login = '/login';
-  static const String signup = '/signup';
-  static const String home = '/home';
+  static const String home = '/';
   static const String chat = '/chat';
   static const String moodTracker = '/mood-tracker';
   static const String selfCare = '/self-care';
@@ -27,18 +20,10 @@ class AppRoutes {
   static const String settings = '/settings';
 }
 
-/// App Router for navigation
+/// App Router for navigation - Direct access, no auth!
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case AppRoutes.splash:
-        return MaterialPageRoute(builder: (_) => const WelcomeScreen());
-      case AppRoutes.onboarding:
-        return MaterialPageRoute(builder: (_) => const WelcomeScreen());
-      case AppRoutes.login:
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
-      case AppRoutes.signup:
-        return MaterialPageRoute(builder: (_) => const SignupScreen());
       case AppRoutes.home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case AppRoutes.chat:

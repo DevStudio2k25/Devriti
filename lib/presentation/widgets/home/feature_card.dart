@@ -64,7 +64,7 @@ class _FeatureCardState extends State<FeatureCard>
             borderRadius: BorderRadius.circular(AppSpacing.radiusLarge),
             boxShadow: [
               BoxShadow(
-                color: widget.gradientColors.first.withOpacity(0.3),
+                color: widget.gradientColors.first.withValues(alpha: 0.3),
                 blurRadius: 8,
                 offset: const Offset(0, 4),
               ),

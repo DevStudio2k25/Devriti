@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_spacing.dart';
 import '../../../core/localization/app_localizations.dart';
-import '../../providers/auth_provider.dart';
 import '../../providers/language_provider.dart';
 import '../../providers/theme_provider.dart';
 
@@ -15,41 +14,43 @@ class SettingsScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final themeProvider = context.watch<ThemeProvider>();
     final languageProvider = context.watch<LanguageProvider>();
-    final authProvider = context.watch<AuthProvider>();
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settings)),
       body: ListView(
         children: [
-          // Profile Section
+          // App Header - No login needed!
           Container(
             padding: const EdgeInsets.all(AppSpacing.xl),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(colors: AppColors.calmGradient),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(colors: AppColors.calmGradient),
             ),
-            child: Column(
+            child: const Column(
               children: [
-                const CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.white,
-                  child: Icon(Icons.person, size: 50, color: AppColors.skyBlue),
-                ),
-                const SizedBox(height: AppSpacing.lg),
+                Icon(Icons.favorite, size: 80, color: Colors.white),
+                SizedBox(height: AppSpacing.lg),
                 Text(
-                  authProvider.userName ?? 'Guest',
-                  style: const TextStyle(
-                    fontSize: 24,
+                  'DEVRITI',
+                  style: TextStyle(
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
-                if (!authProvider.isGuest) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    authProvider.userId ?? '',
-                    style: const TextStyle(fontSize: 14, color: Colors.white70),
+                SizedBox(height: 4),
+                Text(
+                  'Your Mental Health Companion',
+                  style: TextStyle(fontSize: 14, color: Colors.white70),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  '🔒 100% Private - No Login Required',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
                   ),
-                ],
+                ),
               ],
             ),
           ),
@@ -95,6 +96,10 @@ class SettingsScreen extends StatelessWidget {
                             Navigator.pop(context);
                           },
                         ),
+                        onTap: () {
+                          languageProvider.changeLanguage('en');
+                          Navigator.pop(context);
+                        },
                       ),
                       ListTile(
                         title: const Text('हिंदी'),
@@ -106,6 +111,10 @@ class SettingsScreen extends StatelessWidget {
                             Navigator.pop(context);
                           },
                         ),
+                        onTap: () {
+                          languageProvider.changeLanguage('hi');
+                          Navigator.pop(context);
+                        },
                       ),
                     ],
                   ),
@@ -179,21 +188,21 @@ class SettingsScreen extends StatelessWidget {
             onTap: () {
               showAboutDialog(
                 context: context,
-                applicationName: 'Sukoon',
+                applicationName: 'DEVRITI',
                 applicationVersion: '1.0.0',
                 applicationIcon: const Icon(
                   Icons.favorite,
                   size: 48,
                   color: AppColors.skyBlue,
                 ),
-                children: [
-                  const Text(
-                    "You're not alone — Sukoon is here for you",
+                children: const [
+                  Text(
+                    "Instant help, no login needed — DEVRITI is here for you",
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Sukoon is your mental health companion, providing support through AI chat, mood tracking, self-care tools, and professional help.',
+                  SizedBox(height: 16),
+                  Text(
+                    'DEVRITI is your mental health companion, providing instant AI-powered support through chat, mood tracking, self-care tools, and emergency help. All data stays private on your device.',
                   ),
                 ],
               );
@@ -201,44 +210,6 @@ class SettingsScreen extends StatelessWidget {
           ),
 
           const SizedBox(height: AppSpacing.xxl),
-
-          // Logout Button
-          Padding(
-            padding: const EdgeInsets.all(AppSpacing.xl),
-            child: OutlinedButton.icon(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: Text(l10n.logout),
-                    content: const Text('Are you sure you want to logout?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(l10n.cancel),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          authProvider.signOut();
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            '/login',
-                            (route) => false,
-                          );
-                        },
-                        child: Text(l10n.logout),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              icon: const Icon(Icons.logout),
-              label: Text(l10n.logout),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-              ),
-            ),
-          ),
         ],
       ),
     );
