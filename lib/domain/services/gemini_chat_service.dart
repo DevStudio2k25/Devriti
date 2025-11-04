@@ -3,7 +3,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:uuid/uuid.dart';
 import '../../data/models/message_model.dart';
 import '../../data/repositories/chat_repository.dart';
-import '../../core/config/gemini_system_prompt.dart';
+import '../../core/config/gemini_rules/gemini_rules.dart';
 
 /// Gemini AI powered chat service for mental health support
 class GeminiChatService {
