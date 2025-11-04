@@ -63,7 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final welcomeMessage = MessageModel(
       id: 'welcome',
       text:
-          "Namaste! 🙏 I'm DEVRITI, your mental health companion powered by AI. I'm here to listen and support you - no login needed, completely private. How are you feeling today?",
+          "Namaste! 🙏 Main DEVRITI hoon, tumhara mental health companion. Main yahan hoon tumhari baat sunne aur support karne ke liye - koi login nahi chahiye, completely private. Aaj kaisa feel kar rahe ho? Kuch share karna chahoge? 💙",
       messageType: MessageType.ai.index,
       timestamp: DateTime.now(),
       emotionState: EmotionState.calm.index,
@@ -121,11 +121,11 @@ class _ChatScreenState extends State<ChatScreen> {
       final errorMessage = MessageModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         text:
-            "I'm having trouble connecting right now. But I'm here for you. Would you like to try a breathing exercise?",
+            "Yaar, mujhe abhi connect karne mein problem aa rahi hai. But tension mat lo, main yahan hoon. Chalo breathing exercise try karte hain? 💙",
         messageType: MessageType.ai.index,
         timestamp: DateTime.now(),
         emotionState: EmotionState.neutral.index,
-        suggestions: ['Try breathing exercise', 'Explore self-care'],
+        suggestions: ['🫁 Breathing exercise', '🧘 Self-care tools'],
       );
 
       setState(() {

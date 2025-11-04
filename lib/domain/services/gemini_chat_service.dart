@@ -3,6 +3,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:uuid/uuid.dart';
 import '../../data/models/message_model.dart';
 import '../../data/repositories/chat_repository.dart';
+import '../../core/config/gemini_system_prompt.dart';
 
 /// Gemini AI powered chat service for mental health support
 class GeminiChatService {
@@ -37,27 +38,9 @@ class GeminiChatService {
     );
 
     // Start chat session with mental health context
+    // System prompt is loaded from separate file for easy editing
     _chatSession = _model.startChat(
-      history: [
-        Content.text(
-          '''You are Sukoon, a compassionate AI mental health companion. Your role is to:
-1. Listen empathetically and validate feelings
-2. Provide emotional support and encouragement
-3. Suggest coping strategies and self-care activities
-4. Recognize crisis situations and recommend professional help
-5. Be culturally sensitive (support both English and Hindi)
-6. Never diagnose or prescribe medication
-7. Keep responses concise (2-3 sentences)
-8. Use warm, friendly language
-
-If someone expresses suicidal thoughts or severe distress, immediately suggest:
-- Calling emergency helpline: 9152987821 (AASRA)
-- Talking to a mental health professional
-- Reaching out to a trusted friend or family member
-
-Remember: You're a supportive friend, not a therapist.''',
-        ),
-      ],
+      history: [Content.text(GeminiSystemPrompt.prompt)],
     );
   }
 
@@ -119,11 +102,14 @@ Remember: You're a supportive friend, not a therapist.''',
       final fallbackMessage = MessageModel(
         id: _uuid.v4(),
         text:
-            'I\'m having trouble connecting right now. But I\'m here for you. Would you like to try a breathing exercise or explore self-care tools?',
+            'Yaar, mujhe abhi connect karne mein thodi problem aa rahi hai. But main yahan hoon tumhare liye. Kya tum breathing exercise try karna chahoge ya self-care tools explore karoge? 💙',
         messageType: MessageType.ai.index,
         timestamp: DateTime.now(),
         emotionState: EmotionState.neutral.index,
-        suggestions: ['Try breathing exercise', 'Explore self-care'],
+        suggestions: [
+          '🫁 Breathing exercise karo',
+          '🧘 Self-care explore karo',
+        ],
       );
 
       await _chatRepository.saveMessage(fallbackMessage);
@@ -209,10 +195,12 @@ Remember: You're a supportive friend, not a therapist.''',
     // Crisis suggestions
     if (lowerText.contains('suicide') ||
         lowerText.contains('kill') ||
-        lowerText.contains('die')) {
+        lowerText.contains('die') ||
+        lowerText.contains('marna') ||
+        lowerText.contains('khatam')) {
       return [
-        '🆘 Call AASRA: 9152987821',
-        'Talk to a doctor now',
+        '🆘 AASRA call karo: 9152987821',
+        'Doctor se abhi baat karo',
         'Emergency helpline',
       ];
     }
@@ -220,38 +208,42 @@ Remember: You're a supportive friend, not a therapist.''',
     // Context-based suggestions
     switch (emotion) {
       case EmotionState.stressed:
-        if (lowerText.contains('sleep') || lowerText.contains('tired')) {
+        if (lowerText.contains('sleep') ||
+            lowerText.contains('tired') ||
+            lowerText.contains('neend')) {
           return [
-            '🌙 Try sleep meditation',
-            '🫁 Breathing exercise',
-            '📞 Talk to a counselor',
+            '🌙 Sleep meditation try karo',
+            '🫁 Breathing exercise karo',
+            '📞 Counselor se baat karo',
           ];
         } else if (lowerText.contains('anxious') ||
-            lowerText.contains('worry')) {
+            lowerText.contains('worry') ||
+            lowerText.contains('tension') ||
+            lowerText.contains('pareshan')) {
           return [
-            '🫁 5-minute breathing',
-            '🎵 Calming sounds',
-            '📝 Write in journal',
+            '🫁 5-minute breathing karo',
+            '🎵 Calming sounds suno',
+            '📝 Journal mein likho',
           ];
         }
         return [
-          '🫁 Try breathing exercise',
-          '🎵 Listen to calming sounds',
-          '📞 Talk to a professional',
+          '🫁 Breathing exercise try karo',
+          '🎵 Calming sounds suno',
+          '📞 Professional se baat karo',
         ];
 
       case EmotionState.calm:
         return [
-          '📊 Track your mood',
-          '📝 Write in journal',
-          '🎯 Set a wellness goal',
+          '📊 Mood track karo',
+          '📝 Journal mein likho',
+          '🎯 Wellness goal set karo',
         ];
 
       case EmotionState.neutral:
         return [
-          '🧘 Explore self-care tools',
-          '📊 Track your mood',
-          '📖 Read wellness tips',
+          '🧘 Self-care tools explore karo',
+          '📊 Mood track karo',
+          '📖 Wellness tips padho',
         ];
     }
   }
