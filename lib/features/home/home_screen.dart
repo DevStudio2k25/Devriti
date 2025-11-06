@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/localization/app_localizations.dart';
-import '../auth/services/firebase_auth_service.dart';
-import 'widgets/feature_card.dart';
-import 'widgets/quick_stats_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -13,6 +10,262 @@ class HomeScreen extends StatelessWidget {
   String _getRandomQuote() {
     final random = Random();
     return AppConstants.quotes[random.nextInt(AppConstants.quotes.length)];
+  }
+
+  Widget _buildAIChatCard(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(8),
+          bottomLeft: Radius.circular(8),
+          bottomRight: Radius.circular(30),
+        ),
+        border: Border.all(
+          color: const Color(0xFF4CAF50).withValues(alpha: 0.3),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF4CAF50).withValues(alpha: 0.15),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, '/chat');
+          },
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(8),
+            bottomLeft: Radius.circular(8),
+            bottomRight: Radius.circular(30),
+          ),
+          child: Stack(
+            children: [
+              // Green accent corner
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        const Color(0xFF4CAF50).withValues(alpha: 0.2),
+                        Colors.transparent,
+                      ],
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+              // Bottom left accent
+              Positioned(
+                bottom: 0,
+                left: 0,
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        const Color(0xFF81C784).withValues(alpha: 0.15),
+                        Colors.transparent,
+                      ],
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+              // Main content
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [Color(0xFF66BB6A), Color(0xFF4CAF50)],
+                            ),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(16),
+                              topRight: Radius.circular(4),
+                              bottomLeft: Radius.circular(4),
+                              bottomRight: Radius.circular(16),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFF4CAF50,
+                                ).withValues(alpha: 0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.psychology_rounded,
+                            color: Colors.white,
+                            size: 32,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        const Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'AI Support',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.textPrimary,
+                                    ),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Icon(
+                                    Icons.verified_rounded,
+                                    color: Color(0xFF4CAF50),
+                                    size: 20,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.circle,
+                                    color: Color(0xFF4CAF50),
+                                    size: 8,
+                                  ),
+                                  SizedBox(width: 6),
+                                  Text(
+                                    'Online 24/7',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Color(0xFF4CAF50),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 18),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF1F8F4),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(4),
+                          bottomLeft: Radius.circular(4),
+                          bottomRight: Radius.circular(16),
+                        ),
+                        border: Border.all(
+                          color: const Color(0xFF4CAF50).withValues(alpha: 0.2),
+                          width: 1,
+                        ),
+                      ),
+                      child: const Text(
+                        'Your safe space to talk. Share your thoughts, feelings, and concerns with our AI companion. Confidential, judgment-free support anytime you need it.',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textSecondary,
+                          height: 1.6,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Color(0xFF66BB6A), Color(0xFF4CAF50)],
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(6),
+                          bottomLeft: Radius.circular(6),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(
+                              0xFF4CAF50,
+                            ).withValues(alpha: 0.3),
+                            blurRadius: 12,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.chat_bubble_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Start Conversation',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Icon(
+                            Icons.arrow_forward_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -42,71 +295,28 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         actions: [
-          // Settings Menu
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert, color: Colors.white),
-            onSelected: (value) async {
-              if (value == 'settings') {
-                Navigator.pushNamed(context, '/settings');
-              } else if (value == 'logout') {
-                // Show confirmation dialog
-                final confirm = await showDialog<bool>(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('Logout'),
-                    content: const Text('Are you sure you want to logout?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, false),
-                        child: const Text('Cancel'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () => Navigator.pop(context, true),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.error,
-                        ),
-                        child: const Text('Logout'),
-                      ),
-                    ],
-                  ),
-                );
-
-                if (confirm == true && context.mounted) {
-                  await FirebaseAuthService.logout();
-                  if (context.mounted) {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/login',
-                      (route) => false,
-                    );
-                  }
-                }
-              }
-            },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'settings',
-                child: Row(
-                  children: [
-                    Icon(Icons.settings, size: 20),
-                    SizedBox(width: 12),
-                    Text('Settings'),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: 'logout',
-                child: Row(
-                  children: [
-                    Icon(Icons.logout, size: 20, color: AppColors.error),
-                    SizedBox(width: 12),
-                    Text('Logout', style: TextStyle(color: AppColors.error)),
-                  ],
-                ),
-              ),
-            ],
+          // Doctor Button
+          IconButton(
+            icon: const Icon(
+              Icons.medical_services_rounded,
+              color: Colors.white,
+            ),
+            tooltip: 'Consult Doctor',
+            onPressed: () => Navigator.pushNamed(context, '/doctor'),
           ),
-          const SizedBox(width: 8),
+          // Emergency Button
+          IconButton(
+            icon: const Icon(Icons.emergency_rounded, color: Colors.white),
+            tooltip: 'Emergency Help',
+            onPressed: () => Navigator.pushNamed(context, '/emergency'),
+          ),
+          // Settings Button
+          IconButton(
+            icon: const Icon(Icons.settings_rounded, color: Colors.white),
+            tooltip: 'Settings',
+            onPressed: () => Navigator.pushNamed(context, '/settings'),
+          ),
+          const SizedBox(width: 4),
         ],
       ),
       body: CustomScrollView(
@@ -114,9 +324,9 @@ class HomeScreen extends StatelessWidget {
           // Header Section
           SliverToBoxAdapter(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppColors.primary,
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(30),
                   bottomRight: Radius.circular(30),
                 ),
@@ -192,84 +402,11 @@ class HomeScreen extends StatelessWidget {
 
           const SliverToBoxAdapter(child: SizedBox(height: 20)),
 
-          // Quick Stats
-          const SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: QuickStatsCard(),
-            ),
-          ),
-
-          const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-          // Features Section Header
+          // AI Chat Card
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'How can we help you today?',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-            ),
-          ),
-
-          const SliverToBoxAdapter(child: SizedBox(height: 16)),
-
-          // Feature Cards Grid
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1.1,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-              ),
-              delegate: SliverChildListDelegate([
-                FeatureCard(
-                  title: l10n.consultDoctor,
-                  icon: Icons.medical_services_rounded,
-                  gradientColors: const [AppColors.primary, AppColors.primary],
-                  onTap: () => Navigator.pushNamed(context, '/doctor'),
-                ),
-                FeatureCard(
-                  title: l10n.resources,
-                  icon: Icons.library_books_rounded,
-                  gradientColors: const [AppColors.accent, AppColors.accent],
-                  onTap: () => Navigator.pushNamed(context, '/resources'),
-                ),
-                FeatureCard(
-                  title: l10n.journal,
-                  icon: Icons.book_rounded,
-                  gradientColors: const [AppColors.peach, AppColors.peach],
-                  onTap: () => Navigator.pushNamed(context, '/journal'),
-                ),
-                FeatureCard(
-                  title: l10n.exercises,
-                  icon: Icons.self_improvement_rounded,
-                  gradientColors: const [AppColors.mint, AppColors.mint],
-                  onTap: () => Navigator.pushNamed(context, '/exercises'),
-                ),
-                FeatureCard(
-                  title: l10n.emergencyHelp,
-                  icon: Icons.emergency_rounded,
-                  gradientColors: const [AppColors.error, AppColors.error],
-                  onTap: () => Navigator.pushNamed(context, '/emergency'),
-                ),
-                FeatureCard(
-                  title: l10n.relaxSounds,
-                  icon: Icons.music_note_rounded,
-                  gradientColors: const [
-                    AppColors.secondary,
-                    AppColors.secondary,
-                  ],
-                  onTap: () => Navigator.pushNamed(context, '/relax-sounds'),
-                ),
-              ]),
+              child: _buildAIChatCard(context),
             ),
           ),
 
