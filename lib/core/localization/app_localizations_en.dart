@@ -91,6 +91,11 @@ const Map<String, String> appLocalizationsEn = {
   'progress': 'Progress',
   'self_care_sessions': 'Self-Care Sessions',
 
+  // Additional Features
+  'resources': 'Resources',
+  'journal': 'Journal',
+  'exercises': 'Exercises',
+
   // Settings
   'settings': 'Settings',
   'profile': 'Profile',

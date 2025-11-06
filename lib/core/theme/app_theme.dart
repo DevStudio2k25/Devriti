@@ -176,14 +176,14 @@ class AppTheme {
         primary: AppColors.skyBlue,
         secondary: AppColors.lavender,
         tertiary: AppColors.pastelGreen,
-        surface: AppColors.cardDark,
+        // surface: AppColors.cardDark,
         error: AppColors.error,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: Colors.white,
         onError: Colors.white,
       ),
-      scaffoldBackgroundColor: AppColors.backgroundDark,
+      // scaffoldBackgroundColor: AppColors.backgroundDark,
 
       // App Bar Theme
       appBarTheme: const AppBarTheme(
@@ -200,7 +200,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSpacing.radiusMedium),
         ),
-        color: AppColors.cardDark,
+        // color: AppColors.cardDark,
         shadowColor: AppColors.shadowDark,
       ),
 
@@ -259,7 +259,7 @@ class AppTheme {
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.cardDark,
+        // fillColor: AppColors.cardDark,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.lg,
@@ -313,7 +313,7 @@ class AppTheme {
 
       // Bottom Navigation Bar Theme
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: AppColors.cardDark,
+        // backgroundColor: AppColors.cardDark,
         selectedItemColor: AppColors.skyBlue,
         unselectedItemColor: AppColors.textHint,
         type: BottomNavigationBarType.fixed,

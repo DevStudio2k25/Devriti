@@ -91,6 +91,11 @@ const Map<String, String> appLocalizationsHi = {
   'progress': 'प्रगति',
   'self_care_sessions': 'स्व-देखभाल सत्र',
 
+  // Additional Features
+  'resources': 'संसाधन',
+  'journal': 'डायरी',
+  'exercises': 'व्यायाम',
+
   // Settings
   'settings': 'सेटिंग्स',
   'profile': 'प्रोफ़ाइल',

@@ -3,19 +3,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'core/constants/app_constants.dart';
 import 'core/constants/app_colors.dart';
 import 'core/theme/app_theme.dart';
 import 'core/navigation/app_router.dart';
 import 'core/localization/app_localizations.dart';
-import 'presentation/providers/theme_provider.dart';
-import 'presentation/providers/language_provider.dart';
-import 'presentation/screens/home/home_screen.dart';
-import 'data/models/message_model.dart';
-import 'data/models/mood_entry_model.dart';
+import 'shared/providers/theme_provider.dart';
+import 'shared/providers/language_provider.dart';
+import 'features/chat/models/message_model.dart';
+import 'features/mood/models/mood_entry_model.dart';
+import 'features/auth/services/firebase_auth_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
@@ -39,7 +44,7 @@ void main() async {
     ),
   );
 
-  // Initialize Hive for local storage
+  // Initialize Hive for local storage (for chat & mood data)
   await Hive.initFlutter();
 
   // Register Hive adapters
@@ -138,7 +143,7 @@ class _DevritiAppState extends State<DevritiApp> {
               GlobalCupertinoLocalizations.delegate,
             ],
             onGenerateRoute: AppRouter.generateRoute,
-            home: const HomeScreen(), // Direct to home, no login!
+            initialRoute: FirebaseAuthService.isLoggedIn ? '/' : '/login',
           );
         },
       ),

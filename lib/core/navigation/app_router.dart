@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import '../../presentation/screens/auth/login_screen.dart';
-import '../../presentation/screens/auth/signup_screen.dart';
-import '../../presentation/screens/auth/forgot_password_screen.dart';
-import '../../presentation/screens/home/home_screen.dart';
-import '../../presentation/screens/chat/chat_screen.dart';
-import '../../presentation/screens/mood/mood_tracker_screen.dart';
-import '../../presentation/screens/self_care/self_care_screen.dart';
-import '../../presentation/screens/doctor/doctor_connect_screen.dart';
-import '../../presentation/screens/emergency/emergency_screen.dart';
-import '../../presentation/screens/reports/reports_screen.dart';
-import '../../presentation/screens/settings/settings_screen.dart';
+import '../../features/auth/login_screen.dart';
+import '../../features/auth/signup_screen.dart';
+import '../../features/auth/forgot_password_screen.dart';
+import '../../features/auth/profile_setup_screen.dart';
+import '../../features/home/main_screen.dart';
+import '../../features/chat/chat_screen.dart';
+import '../../features/mood/mood_tracker_screen.dart';
+import '../../features/self_care/self_care_screen.dart';
+import '../../features/doctor/doctor_connect_screen.dart';
+import '../../features/emergency/emergency_screen.dart';
+import '../../features/reports/reports_screen.dart';
+import '../../features/settings/settings_screen.dart';
+import '../../features/profile/profile_view_screen.dart';
 
 /// App routes
 class AppRoutes {
@@ -17,6 +19,7 @@ class AppRoutes {
   static const String login = '/login';
   static const String signup = '/signup';
   static const String forgotPassword = '/forgot-password';
+  static const String profileSetup = '/profile-setup';
 
   // App routes
   static const String home = '/';
@@ -27,6 +30,7 @@ class AppRoutes {
   static const String emergency = '/emergency';
   static const String reports = '/reports';
   static const String settings = '/settings';
+  static const String profileView = '/profile-view';
 }
 
 /// App Router for navigation
@@ -40,10 +44,15 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SignupScreen());
       case AppRoutes.forgotPassword:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+      case AppRoutes.profileSetup:
+        final args = settings.arguments as Map<String, String>?;
+        return MaterialPageRoute(
+          builder: (_) => ProfileSetupScreen(signupData: args),
+        );
 
       // App routes
       case AppRoutes.home:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(builder: (_) => const MainScreen());
       case AppRoutes.chat:
         return MaterialPageRoute(builder: (_) => const ChatScreen());
       case AppRoutes.moodTracker:
@@ -58,6 +67,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ReportsScreen());
       case AppRoutes.settings:
         return MaterialPageRoute(builder: (_) => const SettingsScreen());
+      case AppRoutes.profileView:
+        return MaterialPageRoute(builder: (_) => const ProfileViewScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

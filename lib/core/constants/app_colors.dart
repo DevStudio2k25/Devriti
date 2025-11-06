@@ -1,58 +1,70 @@
 import 'package:flutter/material.dart';
 
-/// Color palette for Sukoon app
+/// 🎨 SMART COLOR SYSTEM - Change once, update everywhere!
+/// Ek jagah color change karo, poore app mein update ho jayega!
 class AppColors {
-  // Primary Colors
-  static const Color skyBlue = Color(0xFF87CEEB);
-  static const Color lavender = Color(0xFFE6E6FA);
-  static const Color pastelGreen = Color(0xFFB4E7CE);
-  static const Color peach = Color(0xFFFFDAB9);
-  static const Color softWhite = Color(0xFFF8F9FA);
-  static const Color charcoal = Color(0xFF36454F);
+  // ============ PRIMARY THEME COLORS ============
+  static const Color primary = Color(0xFF2196F3); // Main Blue
+  static const Color primaryDark = Color(0xFF1976D2); // Darker Blue
+  static const Color primaryLight = Color(0xFF64B5F6); // Lighter Blue
 
-  // Gradient Colors
-  static const List<Color> calmGradient = [
-    Color(0xFF87CEEB), // Sky Blue
-    Color(0xFFE6E6FA), // Lavender
-  ];
+  static const Color secondary = Color(0xFF26A69A); // Teal/Green
+  static const Color secondaryDark = Color(0xFF00897B);
+  static const Color secondaryLight = Color(0xFF4DB6AC);
 
-  static const List<Color> peacefulGradient = [
-    Color(0xFFE6E6FA), // Lavender
-    Color(0xFFB4E7CE), // Pastel Green
-  ];
+  static const Color accent = Color(0xFF7E57C2); // Purple
+  static const Color accentLight = Color(0xFF9575CD);
 
-  static const List<Color> serenityGradient = [
-    Color(0xFFB4E7CE), // Pastel Green
-    Color(0xFF87CEEB), // Sky Blue
-  ];
+  // ============ BACKGROUND COLORS ============
+  static const Color background = Color(0xFFF5F7FA);
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color surfaceDark = Color(0xFFF0F0F0);
 
-  // Emotion Colors
-  static const Color emotionCalm = Color(0xFF87CEEB); // Blue
-  static const Color emotionNeutral = Color(0xFFFFF9C4); // Yellow
-  static const Color emotionStressed = Color(0xFFFFCDD2); // Red
+  // ============ TEXT COLORS ============
+  static const Color textPrimary = Color(0xFF1A1A1A);
+  static const Color textSecondary = Color(0xFF666666);
+  static const Color textHint = Color(0xFF999999);
+  static const Color textWhite = Color(0xFFFFFFFF);
+  static const Color textOnPrimary = Color(0xFFFFFFFF);
 
-  // Functional Colors
+  // ============ STATUS COLORS ============
   static const Color success = Color(0xFF4CAF50);
   static const Color warning = Color(0xFFFFC107);
   static const Color error = Color(0xFFF44336);
   static const Color info = Color(0xFF2196F3);
 
-  // Emergency
-  static const Color emergencyRed = Color(0xFFD32F2F);
+  // ============ SPECIAL COLORS ============
+  static const Color emergency = Color(0xFFD32F2F);
+  static const Color calm = Color(0xFF64B5F6);
+  static const Color neutral = Color(0xFFFFF9C4);
+  static const Color stressed = Color(0xFFFFCDD2);
 
-  // Text Colors
-  static const Color textPrimary = Color(0xFF36454F);
-  static const Color textSecondary = Color(0xFF757575);
-  static const Color textHint = Color(0xFFBDBDBD);
-  static const Color textWhite = Color(0xFFFFFFFF);
+  // ============ UTILITY COLORS ============
+  static const Color divider = Color(0xFFE0E0E0);
+  static const Color border = Color(0xFFBDBDBD);
+  static const Color shadow = Color(0x1A000000);
+  static const Color overlay = Color(0x80000000);
 
-  // Background Colors
-  static const Color backgroundLight = Color(0xFFF8F9FA);
-  static const Color backgroundDark = Color(0xFF1E1E1E);
-  static const Color cardLight = Color(0xFFFFFFFF);
-  static const Color cardDark = Color(0xFF2C2C2C);
-
-  // Shadow Colors
-  static const Color shadowLight = Color(0x1A000000);
+  // ============ LEGACY SUPPORT (purane code ke liye) ============
+  static const Color skyBlue = primary;
+  static const Color deepBlue = primaryDark;
+  static const Color pastelGreen = secondary;
+  static const Color lavender = accent;
+  static const Color peach = Color(0xFFFF7043);
+  static const Color mint = Color(0xFF4DB6AC);
+  static const Color softWhite = background;
+  static const Color charcoal = Color(0xFF2C3E50);
+  static const Color backgroundLight = background;
+  static const Color cardLight = surface;
+  static const Color emotionCalm = calm;
+  static const Color emotionNeutral = neutral;
+  static const Color emotionStressed = stressed;
+  static const Color emergencyRed = emergency;
+  static const Color shadowLight = shadow;
   static const Color shadowDark = Color(0x4D000000);
+
+  // ============ GRADIENTS ============
+  static const List<Color> calmGradient = [primary, primaryLight];
+  static const List<Color> peacefulGradient = [accent, accentLight];
+  static const List<Color> serenityGradient = [secondary, secondaryLight];
 }

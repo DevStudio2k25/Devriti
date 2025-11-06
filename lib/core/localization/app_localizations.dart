@@ -115,6 +115,11 @@ class AppLocalizations {
   String get progress => translate('progress');
   String get selfCareSessions => translate('self_care_sessions');
 
+  // Additional Features
+  String get resources => translate('resources');
+  String get journal => translate('journal');
+  String get exercises => translate('exercises');
+
   // Settings
   String get settings => translate('settings');
   String get profile => translate('profile');

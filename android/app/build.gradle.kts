@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ksnh.ksnh"
+    namespace = "com.devriti.selfcare"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -20,8 +20,8 @@ android {
     }
 
     defaultConfig {
-        // Application ID (package name kept as ksnh)
-        applicationId = "com.ksnh.ksnh"
+        // Application ID (package name)
+        applicationId = "com.devriti.selfcare"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "435646997891",
+    "project_id": "devriti-b1f3f",
+    "storage_bucket": "devriti-b1f3f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435646997891:android:1aa37b8c1e79688cf842b6",
+        "android_client_info": {
+          "package_name": "com.devriti.selfcare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435646997891-vg1rhb9775nlfp20pn1ajallsjijjtoi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVZXmdMA0rQSrh2YWQdF2jUD2eghpOEzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435646997891-vg1rhb9775nlfp20pn1ajallsjijjtoi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
