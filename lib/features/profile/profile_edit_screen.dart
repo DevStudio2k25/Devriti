@@ -3,6 +3,8 @@ import '../../core/constants/app_colors.dart';
 import '../auth/models/user_profile_model.dart';
 import '../auth/services/firebase_auth_service.dart';
 import '../auth/widgets/custom_date_picker.dart';
+import 'widgets/gender_selector_field.dart';
+import 'widgets/profession_selector_field.dart';
 
 class ProfileEditScreen extends StatefulWidget {
   final UserProfileModel profile;
@@ -260,19 +262,37 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                         const SizedBox(height: 16),
 
                         // Gender
-                        _buildGenderDropdown(),
+                        GenderSelectorField(
+                          selectedGender: _selectedGender,
+                          onGenderSelected: (gender) {
+                            setState(() {
+                              _selectedGender = gender;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select your gender';
+                            }
+                            return null;
+                          },
+                        ),
 
                         const SizedBox(height: 16),
 
                         // Profession
-                        _buildTextField(
-                          controller: _professionController,
-                          label: 'Profession',
-                          hint: 'e.g., Student, Engineer',
-                          icon: Icons.work_outline,
+                        ProfessionSelectorField(
+                          selectedProfession: _professionController.text.isEmpty
+                              ? null
+                              : _professionController.text,
+                          gender: _selectedGender,
+                          onProfessionSelected: (profession) {
+                            setState(() {
+                              _professionController.text = profession ?? '';
+                            });
+                          },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your profession';
+                              return 'Please select your profession';
                             }
                             return null;
                           },
@@ -473,52 +493,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           vertical: 16,
         ),
       ),
-    );
-  }
-
-  Widget _buildGenderDropdown() {
-    return DropdownButtonFormField<String>(
-      value: _selectedGender,
-      decoration: InputDecoration(
-        labelText: 'Gender',
-        hintText: 'Select',
-        prefixIcon: const Icon(Icons.wc_outlined, size: 20),
-        filled: true,
-        fillColor: AppColors.background.withOpacity(0.5),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.border.withOpacity(0.3)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.primary, width: 2),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
-        ),
-      ),
-      items: ['Male', 'Female', 'Other']
-          .map(
-            (gender) => DropdownMenuItem(
-              value: gender,
-              child: Text(gender, style: const TextStyle(fontSize: 15)),
-            ),
-          )
-          .toList(),
-      onChanged: (value) {
-        setState(() => _selectedGender = value);
-      },
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Select gender';
-        }
-        return null;
-      },
     );
   }
 

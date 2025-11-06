@@ -204,7 +204,6 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
                             // Gender Dropdown
                             DropdownButtonFormField<String>(
-                              value: _selectedGender,
                               decoration: InputDecoration(
                                 labelText: 'Gender',
                                 hintText: 'Select your gender',

@@ -10,7 +10,6 @@ import '../../features/self_care/self_care_screen.dart';
 import '../../features/doctor/doctor_connect_screen.dart';
 import '../../features/emergency/emergency_screen.dart';
 import '../../features/reports/reports_screen.dart';
-import '../../features/settings/settings_screen.dart';
 import '../../features/profile/profile_view_screen.dart';
 
 /// App routes
@@ -29,8 +28,7 @@ class AppRoutes {
   static const String doctorConnect = '/doctor-connect';
   static const String emergency = '/emergency';
   static const String reports = '/reports';
-  static const String settings = '/settings';
-  static const String profileView = '/profile-view';
+  static const String profile = '/profile';
 }
 
 /// App Router for navigation
@@ -65,9 +63,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const EmergencyScreen());
       case AppRoutes.reports:
         return MaterialPageRoute(builder: (_) => const ReportsScreen());
-      case AppRoutes.settings:
-        return MaterialPageRoute(builder: (_) => const SettingsScreen());
-      case AppRoutes.profileView:
+      case AppRoutes.profile:
         return MaterialPageRoute(builder: (_) => const ProfileViewScreen());
       default:
         return MaterialPageRoute(

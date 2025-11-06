@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/localization/app_localizations.dart';
+import 'widgets/custom_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -275,10 +276,16 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.background,
+      drawer: const CustomDrawer(),
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         elevation: 0,
-        automaticallyImplyLeading: false,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu_rounded, color: Colors.white),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
         title: const Row(
           children: [
             Icon(Icons.favorite, color: Colors.white, size: 24),
@@ -295,6 +302,12 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         actions: [
+          // Reports Button
+          IconButton(
+            icon: const Icon(Icons.analytics_rounded, color: Colors.white),
+            tooltip: 'Reports',
+            onPressed: () => Navigator.pushNamed(context, '/reports'),
+          ),
           // Doctor Button
           IconButton(
             icon: const Icon(
@@ -302,19 +315,13 @@ class HomeScreen extends StatelessWidget {
               color: Colors.white,
             ),
             tooltip: 'Consult Doctor',
-            onPressed: () => Navigator.pushNamed(context, '/doctor'),
+            onPressed: () => Navigator.pushNamed(context, '/doctor-connect'),
           ),
           // Emergency Button
           IconButton(
             icon: const Icon(Icons.emergency_rounded, color: Colors.white),
             tooltip: 'Emergency Help',
             onPressed: () => Navigator.pushNamed(context, '/emergency'),
-          ),
-          // Settings Button
-          IconButton(
-            icon: const Icon(Icons.settings_rounded, color: Colors.white),
-            tooltip: 'Settings',
-            onPressed: () => Navigator.pushNamed(context, '/settings'),
           ),
           const SizedBox(width: 4),
         ],

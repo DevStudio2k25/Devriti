@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import 'home_screen.dart';
+import 'widgets/custom_drawer.dart';
 import '../mood/mood_tracker_screen.dart';
 import '../chat/chat_screen.dart';
 import '../self_care/self_care_screen.dart';
@@ -36,6 +37,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomDrawer(),
       body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
