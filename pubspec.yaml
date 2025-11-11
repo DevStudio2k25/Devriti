@@ -39,6 +39,7 @@ dependencies:
   # External Actions
   url_launcher: ^6.2.2
   share_plus: ^7.2.1
+  image_picker: ^1.0.7
 
   # Audio
   audioplayers: ^5.2.1
@@ -97,7 +98,7 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/app_logo.jpg"
+  image_path: "assets/images/logo_devriti.png"
   min_sdk_android: 21
   adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/images/app_logo.jpg"
+  adaptive_icon_foreground: "assets/images/logo_devriti.png"

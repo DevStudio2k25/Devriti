@@ -11,6 +11,7 @@ import '../../features/doctor/doctor_connect_screen.dart';
 import '../../features/emergency/emergency_screen.dart';
 import '../../features/reports/reports_screen.dart';
 import '../../features/profile/profile_view_screen.dart';
+import '../../features/icon/icon_preview.dart';
 
 /// App routes
 class AppRoutes {
@@ -29,6 +30,7 @@ class AppRoutes {
   static const String emergency = '/emergency';
   static const String reports = '/reports';
   static const String profile = '/profile';
+  static const String iconPreview = '/icon-preview';
 }
 
 /// App Router for navigation
@@ -65,6 +67,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ReportsScreen());
       case AppRoutes.profile:
         return MaterialPageRoute(builder: (_) => const ProfileViewScreen());
+      case AppRoutes.iconPreview:
+        return MaterialPageRoute(builder: (_) => const IconPreviewPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

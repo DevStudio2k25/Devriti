@@ -302,6 +302,12 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         actions: [
+          // Icon Preview Button (Temporary for testing)
+          IconButton(
+            icon: const Icon(Icons.image_rounded, color: Colors.white),
+            tooltip: 'Icon Preview',
+            onPressed: () => Navigator.pushNamed(context, '/icon-preview'),
+          ),
           // Reports Button
           IconButton(
             icon: const Icon(Icons.analytics_rounded, color: Colors.white),
