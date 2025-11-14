@@ -1,272 +1,54 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/localization/app_localizations.dart';
+import '../../core/widgets/neumorphic_widgets.dart';
 import 'widgets/custom_drawer.dart';
 
-class HomeScreen extends StatelessWidget {
+/// Modern Neumorphic Home Screen with 3D Depth Effects
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  int? _selectedMood;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 1200),
+      vsync: this,
+    );
+    _fadeAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   String _getRandomQuote() {
     final random = Random();
     return AppConstants.quotes[random.nextInt(AppConstants.quotes.length)];
   }
 
-  Widget _buildAIChatCard(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(8),
-          bottomLeft: Radius.circular(8),
-          bottomRight: Radius.circular(30),
-        ),
-        border: Border.all(
-          color: const Color(0xFF4CAF50).withValues(alpha: 0.3),
-          width: 2,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF4CAF50).withValues(alpha: 0.15),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, '/chat');
-          },
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(8),
-            bottomLeft: Radius.circular(8),
-            bottomRight: Radius.circular(30),
-          ),
-          child: Stack(
-            children: [
-              // Green accent corner
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                        const Color(0xFF4CAF50).withValues(alpha: 0.2),
-                        Colors.transparent,
-                      ],
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(8),
-                    ),
-                  ),
-                ),
-              ),
-              // Bottom left accent
-              Positioned(
-                bottom: 0,
-                left: 0,
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                      colors: [
-                        const Color(0xFF81C784).withValues(alpha: 0.15),
-                        Colors.transparent,
-                      ],
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(8),
-                    ),
-                  ),
-                ),
-              ),
-              // Main content
-              Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [Color(0xFF66BB6A), Color(0xFF4CAF50)],
-                            ),
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(16),
-                              topRight: Radius.circular(4),
-                              bottomLeft: Radius.circular(4),
-                              bottomRight: Radius.circular(16),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(
-                                  0xFF4CAF50,
-                                ).withValues(alpha: 0.3),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: const Icon(
-                            Icons.psychology_rounded,
-                            color: Colors.white,
-                            size: 32,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    'AI Support',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.textPrimary,
-                                    ),
-                                  ),
-                                  SizedBox(width: 8),
-                                  Icon(
-                                    Icons.verified_rounded,
-                                    color: Color(0xFF4CAF50),
-                                    size: 20,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 4),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.circle,
-                                    color: Color(0xFF4CAF50),
-                                    size: 8,
-                                  ),
-                                  SizedBox(width: 6),
-                                  Text(
-                                    'Online 24/7',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Color(0xFF4CAF50),
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 18),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF1F8F4),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(16),
-                          topRight: Radius.circular(4),
-                          bottomLeft: Radius.circular(4),
-                          bottomRight: Radius.circular(16),
-                        ),
-                        border: Border.all(
-                          color: const Color(0xFF4CAF50).withValues(alpha: 0.2),
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        'Your safe space to talk. Share your thoughts, feelings, and concerns with our AI companion. Confidential, judgment-free support anytime you need it.',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.textSecondary,
-                          height: 1.6,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 14,
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [Color(0xFF66BB6A), Color(0xFF4CAF50)],
-                        ),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(6),
-                          bottomLeft: Radius.circular(6),
-                          bottomRight: Radius.circular(20),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(
-                              0xFF4CAF50,
-                            ).withValues(alpha: 0.3),
-                            blurRadius: 12,
-                            offset: const Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.chat_bubble_rounded,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            'Start Conversation',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                          SizedBox(width: 8),
-                          Icon(
-                            Icons.arrow_forward_rounded,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Good Morning';
+    if (hour < 17) return 'Good Afternoon';
+    return 'Good Evening';
   }
 
   @override
@@ -275,156 +57,741 @@ class HomeScreen extends StatelessWidget {
     const userName = 'Friend';
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: NeumorphicColors.background,
       drawer: const CustomDrawer(),
-      appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        elevation: 0,
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu_rounded, color: Colors.white),
-            onPressed: () => Scaffold.of(context).openDrawer(),
+      body: FadeTransition(
+        opacity: _fadeAnimation,
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            _buildAppBar(context, userName),
+            _buildMoodCheckCard(l10n),
+            _buildQuickStatsGrid(),
+            _buildQuickActionsRow(context),
+            _buildAIChatCard(context),
+            _buildTodayActivities(l10n),
+            _buildMotivationalQuote(),
+            const SliverToBoxAdapter(child: SizedBox(height: 32)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Neumorphic AppBar with Actions
+  SliverAppBar _buildAppBar(BuildContext context, String userName) {
+    return SliverAppBar(
+      expandedHeight: 140,
+      floating: false,
+      pinned: true,
+      backgroundColor: NeumorphicColors.background,
+      elevation: 0,
+      leading: Builder(
+        builder: (context) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: NeumorphicButton(
+            icon: Icons.menu_rounded,
+            onTap: () => Scaffold.of(context).openDrawer(),
           ),
         ),
-        title: const Row(
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: NeumorphicButton(
+            icon: Icons.analytics_rounded,
+            onTap: () => Navigator.pushNamed(context, '/reports'),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: NeumorphicButton(
+            icon: Icons.medical_services_rounded,
+            onTap: () => Navigator.pushNamed(context, '/doctor-connect'),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: NeumorphicButton(
+            icon: Icons.emergency_rounded,
+            onTap: () => Navigator.pushNamed(context, '/emergency'),
+          ),
+        ),
+        const SizedBox(width: 8),
+      ],
+      flexibleSpace: FlexibleSpaceBar(
+        centerTitle: false,
+        titlePadding: const EdgeInsets.only(left: 20, bottom: 16),
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(Icons.favorite, color: Colors.white, size: 24),
-            SizedBox(width: 12),
             Text(
-              'DEVRITI',
-              style: TextStyle(
+              '${_getGreeting()}, $userName 👋',
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
-                letterSpacing: 1,
+                color: NeumorphicColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'How are you feeling today?',
+              style: TextStyle(
+                fontSize: 13,
+                color: NeumorphicColors.textSecondary.withValues(alpha: 0.9),
+                fontWeight: FontWeight.w400,
               ),
             ),
           ],
         ),
-        actions: [
-          // Icon Preview Button (Temporary for testing)
-          IconButton(
-            icon: const Icon(Icons.image_rounded, color: Colors.white),
-            tooltip: 'Icon Preview',
-            onPressed: () => Navigator.pushNamed(context, '/icon-preview'),
-          ),
-          // Reports Button
-          IconButton(
-            icon: const Icon(Icons.analytics_rounded, color: Colors.white),
-            tooltip: 'Reports',
-            onPressed: () => Navigator.pushNamed(context, '/reports'),
-          ),
-          // Doctor Button
-          IconButton(
-            icon: const Icon(
-              Icons.medical_services_rounded,
-              color: Colors.white,
-            ),
-            tooltip: 'Consult Doctor',
-            onPressed: () => Navigator.pushNamed(context, '/doctor-connect'),
-          ),
-          // Emergency Button
-          IconButton(
-            icon: const Icon(Icons.emergency_rounded, color: Colors.white),
-            tooltip: 'Emergency Help',
-            onPressed: () => Navigator.pushNamed(context, '/emergency'),
-          ),
-          const SizedBox(width: 4),
-        ],
       ),
-      body: CustomScrollView(
-        slivers: [
-          // Header Section
-          SliverToBoxAdapter(
-            child: Container(
-              decoration: const BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    );
+  }
+
+  // Daily Mood Check Card
+  Widget _buildMoodCheckCard(AppLocalizations l10n) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+        child: TweenAnimationBuilder<double>(
+          tween: Tween(begin: 0.0, end: 1.0),
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.easeOutBack,
+          builder: (context, value, child) {
+            return Transform.scale(scale: value, child: child);
+          },
+          child: NeumorphicCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Text(
-                      '${l10n.hello}, $userName 👋',
-                      style: const TextStyle(
-                        fontSize: 28,
+                    NeumorphicContainer(
+                      width: 40,
+                      height: 40,
+                      child: const Icon(
+                        Icons.mood_rounded,
+                        color: NeumorphicColors.purple,
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    const Text(
+                      'How are you feeling?',
+                      style: TextStyle(
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: NeumorphicColors.textPrimary,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      l10n.howAreYouFeeling,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white70,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    // Quote Card
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildMoodButton('😢', 0, 'Terrible'),
+                    _buildMoodButton('😔', 1, 'Bad'),
+                    _buildMoodButton('😐', 2, 'Okay'),
+                    _buildMoodButton('😊', 3, 'Good'),
+                    _buildMoodButton('😄', 4, 'Amazing'),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Tap to log your mood',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: NeumorphicColors.textTertiary.withValues(alpha: 0.7),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMoodButton(String emoji, int index, String label) {
+    final isSelected = _selectedMood == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() => _selectedMood = index);
+        Navigator.pushNamed(context, '/mood-tracker');
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        width: 56,
+        height: 56,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: NeumorphicColors.card,
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: NeumorphicColors.purple.withValues(alpha: 0.4),
+                    blurRadius: 16,
+                    spreadRadius: 2,
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.6),
+                    offset: const Offset(4, 4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                  BoxShadow(
+                    color: Colors.white.withValues(alpha: 0.03),
+                    offset: const Offset(-4, -4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                ],
+        ),
+        child: Center(
+          child: Text(emoji, style: TextStyle(fontSize: isSelected ? 32 : 28)),
+        ),
+      ),
+    );
+  }
+
+  // Quick Stats Grid (2x2)
+  Widget _buildQuickStatsGrid() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        child: Row(
+          children: [
+            Expanded(
+              child: _buildStatCard(
+                icon: Icons.chat_bubble_rounded,
+                label: 'Chats',
+                value: '12',
+                color: NeumorphicColors.blue,
+                delay: 0,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildStatCard(
+                icon: Icons.mood_rounded,
+                label: 'Mood Logs',
+                value: '7',
+                color: NeumorphicColors.orange,
+                delay: 100,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatCard({
+    required IconData icon,
+    required String label,
+    required String value,
+    required Color color,
+    required int delay,
+  }) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: Duration(milliseconds: 600 + delay),
+      curve: Curves.easeOutBack,
+      builder: (context, animValue, child) {
+        return Transform.scale(scale: animValue, child: child);
+      },
+      child: NeumorphicCard(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            NeumorphicContainer(
+              width: 48,
+              height: 48,
+              child: Icon(icon, color: color, size: 24),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              value,
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 12,
+                color: NeumorphicColors.textTertiary,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Quick Actions Row
+  Widget _buildQuickActionsRow(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Quick Actions',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: NeumorphicColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 16),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  _buildQuickActionButton(
+                    icon: Icons.self_improvement_rounded,
+                    label: 'Meditate',
+                    color: NeumorphicColors.purple,
+                    onTap: () => Navigator.pushNamed(context, '/self-care'),
+                  ),
+                  const SizedBox(width: 12),
+                  _buildQuickActionButton(
+                    icon: Icons.psychology_rounded,
+                    label: 'AI Chat',
+                    color: NeumorphicColors.mint,
+                    onTap: () => Navigator.pushNamed(context, '/chat'),
+                  ),
+                  const SizedBox(width: 12),
+                  _buildQuickActionButton(
+                    icon: Icons.book_rounded,
+                    label: 'Journal',
+                    color: NeumorphicColors.orange,
+                    onTap: () => Navigator.pushNamed(context, '/journal-entry'),
+                  ),
+                  const SizedBox(width: 12),
+                  _buildQuickActionButton(
+                    icon: Icons.music_note_rounded,
+                    label: 'Sounds',
+                    color: NeumorphicColors.blue,
+                    onTap: () => Navigator.pushNamed(context, '/self-care'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuickActionButton({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 100,
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+        decoration: BoxDecoration(
+          color: NeumorphicColors.card,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.6),
+              offset: const Offset(4, 4),
+              blurRadius: 12,
+              spreadRadius: -2,
+            ),
+            BoxShadow(
+              color: Colors.white.withValues(alpha: 0.03),
+              offset: const Offset(-4, -4),
+              blurRadius: 12,
+              spreadRadius: -2,
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [color, color.withValues(alpha: 0.7)],
+                ),
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: color.withValues(alpha: 0.4),
+                    blurRadius: 8,
+                    spreadRadius: 1,
+                  ),
+                ],
+              ),
+              child: Icon(icon, color: Colors.white, size: 20),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: NeumorphicColors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // AI Chat Card (Featured)
+  Widget _buildAIChatCard(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        child: GestureDetector(
+          onTap: () => Navigator.pushNamed(context, '/chat'),
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFF8B7FFF), Color(0xFFB8A8FF)],
+              ),
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: NeumorphicColors.purple.withValues(alpha: 0.4),
+                  blurRadius: 24,
+                  offset: const Offset(0, 12),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
                     Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.3),
-                          width: 1,
-                        ),
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Row(
+                      child: const Icon(
+                        Icons.psychology_rounded,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Icon(
-                              Icons.format_quote,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              _getRandomQuote(),
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: Colors.white,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w500,
+                          Row(
+                            children: [
+                              Text(
+                                'AI Support',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
+                              SizedBox(width: 8),
+                              Icon(
+                                Icons.verified_rounded,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Icon(Icons.circle, color: Colors.white, size: 8),
+                              SizedBox(width: 6),
+                              Text(
+                                'Online 24/7',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: const Text(
+                    'Your safe space to talk. Share your thoughts, feelings, and concerns with our AI companion.',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.4),
+                      width: 1,
+                    ),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.chat_bubble_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      SizedBox(width: 10),
+                      Text(
+                        'Start Conversation',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Icon(
+                        Icons.arrow_forward_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Today's Activities
+  Widget _buildTodayActivities(AppLocalizations l10n) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Today's Activities",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: NeumorphicColors.textPrimary,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'See All',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: NeumorphicColors.purple,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            _buildActivityItem(
+              icon: Icons.self_improvement_rounded,
+              title: 'Morning Meditation',
+              time: '8:00 AM',
+              isCompleted: true,
+              color: NeumorphicColors.purple,
+            ),
+            const SizedBox(height: 12),
+            _buildActivityItem(
+              icon: Icons.medication_rounded,
+              title: 'Take Medication',
+              time: '10:00 AM',
+              isCompleted: false,
+              color: NeumorphicColors.coral,
+            ),
+            const SizedBox(height: 12),
+            _buildActivityItem(
+              icon: Icons.directions_walk_rounded,
+              title: 'Evening Walk',
+              time: '6:00 PM',
+              isCompleted: false,
+              color: NeumorphicColors.mint,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActivityItem({
+    required IconData icon,
+    required String title,
+    required String time,
+    required bool isCompleted,
+    required Color color,
+  }) {
+    return NeumorphicCard(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          NeumorphicContainer(
+            width: 48,
+            height: 48,
+            isCircle: true,
+            child: Icon(icon, color: color, size: 24),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: NeumorphicColors.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  time,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: NeumorphicColors.textSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (isCompleted)
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: NeumorphicColors.mint.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
               ),
+              child: const Icon(
+                Icons.check_rounded,
+                color: NeumorphicColors.mint,
+                size: 20,
+              ),
+            )
+          else
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: NeumorphicColors.textTertiary,
             ),
-          ),
-
-          const SliverToBoxAdapter(child: SizedBox(height: 20)),
-
-          // AI Chat Card
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _buildAIChatCard(context),
-            ),
-          ),
-
-          const SliverToBoxAdapter(child: SizedBox(height: 30)),
         ],
+      ),
+    );
+  }
+
+  // Motivational Quote Card
+  Widget _buildMotivationalQuote() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        child: NeumorphicCard(
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      NeumorphicColors.orange.withValues(alpha: 0.3),
+                      NeumorphicColors.coral.withValues(alpha: 0.3),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.format_quote_rounded,
+                  color: NeumorphicColors.orange,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _getRandomQuote(),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontStyle: FontStyle.italic,
+                        color: NeumorphicColors.textSecondary,
+                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      '- Daily Inspiration',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: NeumorphicColors.textTertiary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

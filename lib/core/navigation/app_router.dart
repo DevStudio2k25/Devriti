@@ -4,13 +4,13 @@ import '../../features/auth/signup_screen.dart';
 import '../../features/auth/forgot_password_screen.dart';
 import '../../features/auth/profile_setup_screen.dart';
 import '../../features/home/main_screen.dart';
-import '../../features/chat/chat_screen.dart';
-import '../../features/mood/mood_tracker_screen.dart';
-import '../../features/self_care/self_care_screen.dart';
-import '../../features/doctor/doctor_connect_screen.dart';
-import '../../features/emergency/emergency_screen.dart';
+import '../../features/chat/view/chat_view_screen.dart';
+import '../../features/mood/view/mood_tracker_view_screen.dart';
+import '../../features/self_care/view/self_care_screen.dart';
+import '../../features/doctor/view/doctor_connect_view_screen.dart';
+import '../../features/emergency/view/emergency_view_screen.dart';
 import '../../features/reports/reports_screen.dart';
-import '../../features/profile/profile_view_screen.dart';
+import '../../features/profile/view/profile_view_screen.dart';
 import '../../features/icon/icon_preview.dart';
 
 /// App routes

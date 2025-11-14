@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/app_colors.dart';
+import '../../../core/widgets/neumorphic_widgets.dart';
 
 class GenderSelectorDialog extends StatefulWidget {
   final String? selectedGender;
@@ -22,12 +22,24 @@ class _GenderSelectorDialogState extends State<GenderSelectorDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      backgroundColor: Colors.transparent,
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: NeumorphicColors.card,
           borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.6),
+              offset: const Offset(4, 4),
+              blurRadius: 20,
+            ),
+            BoxShadow(
+              color: Colors.white.withValues(alpha: 0.05),
+              offset: const Offset(-4, -4),
+              blurRadius: 20,
+            ),
+          ],
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -35,16 +47,13 @@ class _GenderSelectorDialogState extends State<GenderSelectorDialog> {
             // Header
             Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                NeumorphicContainer(
+                  width: 48,
+                  height: 48,
                   child: const Icon(
                     Icons.wc_rounded,
-                    color: AppColors.primary,
-                    size: 28,
+                    color: NeumorphicColors.purple,
+                    size: 24,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -57,7 +66,7 @@ class _GenderSelectorDialogState extends State<GenderSelectorDialog> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+                          color: NeumorphicColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 4),
@@ -65,7 +74,7 @@ class _GenderSelectorDialogState extends State<GenderSelectorDialog> {
                         'Choose your gender',
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppColors.textSecondary,
+                          color: NeumorphicColors.textSecondary,
                         ),
                       ),
                     ],
@@ -76,27 +85,23 @@ class _GenderSelectorDialogState extends State<GenderSelectorDialog> {
 
             const SizedBox(height: 24),
 
-            // Gender Chips
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [
-                _buildGenderChip(
-                  label: 'Male',
-                  icon: Icons.male_rounded,
-                  color: Colors.blue,
-                ),
-                _buildGenderChip(
-                  label: 'Female',
-                  icon: Icons.female_rounded,
-                  color: Colors.pink,
-                ),
-                _buildGenderChip(
-                  label: 'Other',
-                  icon: Icons.transgender_rounded,
-                  color: Colors.purple,
-                ),
-              ],
+            // Gender Options
+            _buildGenderOption(
+              label: 'Male',
+              icon: Icons.male_rounded,
+              color: NeumorphicColors.blue,
+            ),
+            const SizedBox(height: 12),
+            _buildGenderOption(
+              label: 'Female',
+              icon: Icons.female_rounded,
+              color: NeumorphicColors.coral,
+            ),
+            const SizedBox(height: 12),
+            _buildGenderOption(
+              label: 'Other',
+              icon: Icons.transgender_rounded,
+              color: NeumorphicColors.purple,
             ),
 
             const SizedBox(height: 24),
@@ -105,47 +110,74 @@ class _GenderSelectorDialogState extends State<GenderSelectorDialog> {
             Row(
               children: [
                 Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: OutlinedButton.styleFrom(
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
+                      decoration: BoxDecoration(
+                        color: NeumorphicColors.background,
                         borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.4),
+                            offset: const Offset(2, 2),
+                            blurRadius: 8,
+                          ),
+                        ],
                       ),
-                      side: BorderSide(
-                        color: AppColors.border.withValues(alpha: 0.5),
-                      ),
-                    ),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textSecondary,
+                      child: const Text(
+                        'Cancel',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: NeumorphicColors.textSecondary,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: _selectedGender != null
+                  child: GestureDetector(
+                    onTap: _selectedGender != null
                         ? () => Navigator.pop(context, _selectedGender)
                         : null,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
+                    child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
+                      decoration: BoxDecoration(
+                        gradient: _selectedGender != null
+                            ? const LinearGradient(
+                                colors: [
+                                  NeumorphicColors.purple,
+                                  NeumorphicColors.purpleLight,
+                                ],
+                              )
+                            : null,
+                        color: _selectedGender == null
+                            ? NeumorphicColors.textTertiary
+                            : null,
                         borderRadius: BorderRadius.circular(12),
+                        boxShadow: _selectedGender != null
+                            ? [
+                                BoxShadow(
+                                  color: NeumorphicColors.purple.withValues(
+                                    alpha: 0.4,
+                                  ),
+                                  offset: const Offset(0, 4),
+                                  blurRadius: 12,
+                                ),
+                              ]
+                            : null,
                       ),
-                      elevation: 0,
-                    ),
-                    child: const Text(
-                      'Confirm',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      child: const Text(
+                        'Confirm',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -158,54 +190,84 @@ class _GenderSelectorDialogState extends State<GenderSelectorDialog> {
     );
   }
 
-  Widget _buildGenderChip({
+  Widget _buildGenderOption({
     required String label,
     required IconData icon,
     required Color color,
   }) {
     final isSelected = _selectedGender == label;
 
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         setState(() {
           _selectedGender = label;
         });
       },
-      borderRadius: BorderRadius.circular(16),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected
-              ? color.withValues(alpha: 0.15)
-              : Colors.grey.shade100,
+              ? NeumorphicColors.background
+              : NeumorphicColors.card,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected ? color : Colors.transparent,
             width: 2,
           ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: color.withValues(alpha: 0.3),
+                    blurRadius: 12,
+                    spreadRadius: 1,
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.3),
+                    offset: const Offset(2, 2),
+                    blurRadius: 6,
+                  ),
+                ],
         ),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: isSelected ? color : AppColors.textSecondary,
-              size: 24,
-            ),
-            const SizedBox(width: 10),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                color: isSelected ? color : AppColors.textSecondary,
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                gradient: isSelected
+                    ? LinearGradient(
+                        colors: [
+                          color.withValues(alpha: 0.3),
+                          color.withValues(alpha: 0.1),
+                        ],
+                      )
+                    : null,
+                color: isSelected ? null : NeumorphicColors.background,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                icon,
+                color: isSelected ? color : NeumorphicColors.textTertiary,
+                size: 24,
               ),
             ),
-            if (isSelected) ...[
-              const SizedBox(width: 8),
-              Icon(Icons.check_circle_rounded, color: color, size: 20),
-            ],
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                  color: isSelected
+                      ? NeumorphicColors.textPrimary
+                      : NeumorphicColors.textSecondary,
+                ),
+              ),
+            ),
+            if (isSelected)
+              Icon(Icons.check_circle_rounded, color: color, size: 24),
           ],
         ),
       ),
@@ -220,6 +282,7 @@ Future<String?> showGenderSelector(
 }) async {
   return await showDialog<String>(
     context: context,
+    barrierColor: Colors.black.withValues(alpha: 0.7),
     builder: (context) => GenderSelectorDialog(selectedGender: currentGender),
   );
 }

@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 import 'core/constants/app_constants.dart';
 import 'core/constants/app_colors.dart';
@@ -14,13 +15,22 @@ import 'shared/providers/theme_provider.dart';
 import 'shared/providers/language_provider.dart';
 import 'features/chat/models/message_model.dart';
 import 'features/mood/models/mood_entry_model.dart';
-import 'features/auth/services/firebase_auth_service.dart';
+import 'features/auth/widgets/auth_wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Enable Firebase Auth persistence (keeps user logged in)
+  // Note: setPersistence only works on web, mobile automatically persists
+  try {
+    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  } catch (e) {
+    // Ignore on non-web platforms (mobile already persists by default)
+    debugPrint('Auth persistence not needed on this platform: $e');
+  }
 
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
@@ -143,7 +153,7 @@ class _DevritiAppState extends State<DevritiApp> {
               GlobalCupertinoLocalizations.delegate,
             ],
             onGenerateRoute: AppRouter.generateRoute,
-            initialRoute: FirebaseAuthService.isLoggedIn ? '/' : '/login',
+            home: const AuthWrapper(),
           );
         },
       ),

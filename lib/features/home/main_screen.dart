@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/app_colors.dart';
+import '../../core/widgets/neumorphic_widgets.dart';
 import 'home_screen.dart';
 import 'widgets/custom_drawer.dart';
-import '../mood/mood_tracker_screen.dart';
-import '../chat/chat_screen.dart';
-import '../self_care/self_care_screen.dart';
-import '../profile/profile_view_screen.dart';
+import '../mood/view/mood_tracker_view_screen.dart';
+import '../chat/view/chat_view_screen.dart';
+import '../self_care/view/self_care_screen.dart';
+import '../profile/view/profile_view_screen.dart';
 
 /// Main Screen with Bottom Navigation (5 tabs)
 class MainScreen extends StatefulWidget {
@@ -27,11 +27,11 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   final List<_NavItem> _navItems = [
-    _NavItem(icon: Icons.home_rounded, color: AppColors.primary),
-    _NavItem(icon: Icons.mood_rounded, color: AppColors.lavender),
-    _NavItem(icon: Icons.chat_bubble_rounded, color: AppColors.skyBlue),
-    _NavItem(icon: Icons.spa_rounded, color: AppColors.pastelGreen),
-    _NavItem(icon: Icons.person_rounded, color: AppColors.charcoal),
+    _NavItem(icon: Icons.home_rounded, color: NeumorphicColors.purple),
+    _NavItem(icon: Icons.mood_rounded, color: NeumorphicColors.orange),
+    _NavItem(icon: Icons.chat_bubble_rounded, color: NeumorphicColors.mint),
+    _NavItem(icon: Icons.spa_rounded, color: NeumorphicColors.blue),
+    _NavItem(icon: Icons.person_rounded, color: NeumorphicColors.coral),
   ];
 
   @override
@@ -41,60 +41,35 @@ class _MainScreenState extends State<MainScreen> {
       body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: NeumorphicColors.card,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, -2),
+              color: Colors.black.withValues(alpha: 0.6),
+              blurRadius: 20,
+              offset: const Offset(0, -4),
+              spreadRadius: -2,
+            ),
+            BoxShadow(
+              color: Colors.white.withValues(alpha: 0.02),
+              blurRadius: 20,
+              offset: const Offset(0, -4),
+              spreadRadius: -2,
             ),
           ],
         ),
         child: SafeArea(
           child: SizedBox(
-            height: 65,
-            child: Stack(
-              children: [
-                // Sliding indicator
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  left: _getIndicatorPosition(context),
-                  bottom: 0,
-                  child: Container(
-                    width: _getItemWidth(context),
-                    height: 3,
-                    decoration: BoxDecoration(
-                      color: _navItems[_currentIndex].color,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(3),
-                        topRight: Radius.circular(3),
-                      ),
-                    ),
-                  ),
-                ),
-                // Nav items
-                Row(
-                  children: List.generate(
-                    _navItems.length,
-                    (index) =>
-                        _buildNavItem(item: _navItems[index], index: index),
-                  ),
-                ),
-              ],
+            height: 70,
+            child: Row(
+              children: List.generate(
+                _navItems.length,
+                (index) => _buildNavItem(item: _navItems[index], index: index),
+              ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  double _getItemWidth(BuildContext context) {
-    return MediaQuery.of(context).size.width / _navItems.length;
-  }
-
-  double _getIndicatorPosition(BuildContext context) {
-    return _getItemWidth(context) * _currentIndex;
   }
 
   Widget _buildNavItem({required _NavItem item, required int index}) {
@@ -107,18 +82,68 @@ class _MainScreenState extends State<MainScreen> {
             _currentIndex = index;
           });
         },
-        child: Container(
-          color: Colors.transparent,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
+          margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? NeumorphicColors.background
+                : NeumorphicColors.card,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.6),
+                      offset: const Offset(3, 3),
+                      blurRadius: 8,
+                      spreadRadius: -2,
+                    ),
+                    BoxShadow(
+                      color: Colors.white.withValues(alpha: 0.03),
+                      offset: const Offset(-3, -3),
+                      blurRadius: 8,
+                      spreadRadius: -2,
+                    ),
+                  ]
+                : [],
+          ),
           child: Center(
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              padding: const EdgeInsets.all(8),
-              child: Icon(
-                item.icon,
-                color: isSelected ? item.color : AppColors.textHint,
-                size: isSelected ? 28 : 24,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  padding: EdgeInsets.all(isSelected ? 8 : 6),
+                  decoration: BoxDecoration(
+                    gradient: isSelected
+                        ? LinearGradient(
+                            colors: [
+                              item.color,
+                              item.color.withValues(alpha: 0.7),
+                            ],
+                          )
+                        : null,
+                    shape: BoxShape.circle,
+                    boxShadow: isSelected
+                        ? [
+                            BoxShadow(
+                              color: item.color.withValues(alpha: 0.4),
+                              blurRadius: 12,
+                              spreadRadius: 2,
+                            ),
+                          ]
+                        : [],
+                  ),
+                  child: Icon(
+                    item.icon,
+                    color: isSelected
+                        ? Colors.white
+                        : NeumorphicColors.textTertiary,
+                    size: isSelected ? 24 : 22,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
