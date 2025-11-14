@@ -26,28 +26,48 @@ class NeumorphicContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor =
+        backgroundColor ??
+        (isDark ? const Color(0xFF2A2F38) : const Color(0xFFF5F7FA));
+
     return Container(
       width: width,
       height: height,
       padding: padding,
       decoration: BoxDecoration(
-        color: backgroundColor ?? const Color(0xFF2A2F38),
+        color: bgColor,
         shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
         borderRadius: isCircle ? null : BorderRadius.circular(borderRadius),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.6),
-            offset: const Offset(4, 4),
-            blurRadius: 12,
-            spreadRadius: -2,
-          ),
-          BoxShadow(
-            color: Colors.white.withValues(alpha: 0.03),
-            offset: const Offset(-4, -4),
-            blurRadius: 12,
-            spreadRadius: -2,
-          ),
-        ],
+        boxShadow: isDark
+            ? [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.6),
+                  offset: const Offset(4, 4),
+                  blurRadius: 12,
+                  spreadRadius: -2,
+                ),
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: 0.03),
+                  offset: const Offset(-4, -4),
+                  blurRadius: 12,
+                  spreadRadius: -2,
+                ),
+              ]
+            : [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  offset: const Offset(4, 4),
+                  blurRadius: 12,
+                  spreadRadius: -2,
+                ),
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: 0.9),
+                  offset: const Offset(-4, -4),
+                  blurRadius: 12,
+                  spreadRadius: -2,
+                ),
+              ],
       ),
       child: child,
     );
@@ -76,6 +96,13 @@ class NeumorphicButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor =
+        color ?? (isDark ? const Color(0xFF2A2F38) : const Color(0xFFF5F7FA));
+    final iconColor = gradient != null
+        ? Colors.white
+        : (isDark ? Colors.white : const Color(0xFF1A1D23));
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -83,30 +110,45 @@ class NeumorphicButton extends StatelessWidget {
         height: height ?? 44,
         decoration: BoxDecoration(
           gradient: gradient,
-          color: gradient == null ? (color ?? const Color(0xFF2A2F38)) : null,
+          color: gradient == null ? bgColor : null,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.6),
-              offset: const Offset(4, 4),
-              blurRadius: 12,
-              spreadRadius: -2,
-            ),
-            BoxShadow(
-              color: Colors.white.withValues(alpha: 0.03),
-              offset: const Offset(-4, -4),
-              blurRadius: 12,
-              spreadRadius: -2,
-            ),
-          ],
+          boxShadow: isDark
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.6),
+                    offset: const Offset(4, 4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                  BoxShadow(
+                    color: Colors.white.withValues(alpha: 0.03),
+                    offset: const Offset(-4, -4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    offset: const Offset(4, 4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                  BoxShadow(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    offset: const Offset(-4, -4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                ],
         ),
         child: Center(
           child: icon != null
-              ? Icon(icon, color: Colors.white, size: 22)
+              ? Icon(icon, color: iconColor, size: 22)
               : Text(
                   label ?? '',
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: iconColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -132,28 +174,46 @@ class NeumorphicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? const Color(0xFF2A2F38) : const Color(0xFFF5F7FA);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: margin,
         padding: padding ?? const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: const Color(0xFF2A2F38),
+          color: bgColor,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.6),
-              offset: const Offset(4, 4),
-              blurRadius: 12,
-              spreadRadius: -2,
-            ),
-            BoxShadow(
-              color: Colors.white.withValues(alpha: 0.03),
-              offset: const Offset(-4, -4),
-              blurRadius: 12,
-              spreadRadius: -2,
-            ),
-          ],
+          boxShadow: isDark
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.6),
+                    offset: const Offset(4, 4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                  BoxShadow(
+                    color: Colors.white.withValues(alpha: 0.03),
+                    offset: const Offset(-4, -4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    offset: const Offset(4, 4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                  BoxShadow(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    offset: const Offset(-4, -4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                ],
         ),
         child: child,
       ),
@@ -177,8 +237,14 @@ class NeumorphicAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? const Color(0xFF1A1D23) : const Color(0xFFE8EDF3);
+    final textColor = isDark
+        ? const Color(0xFFE8EDF3)
+        : const Color(0xFF1A1D23);
+
     return AppBar(
-      backgroundColor: const Color(0xFF1A1D23),
+      backgroundColor: bgColor,
       elevation: 0,
       leading: leadingIcon != null
           ? Padding(
@@ -191,10 +257,10 @@ class NeumorphicAppBar extends StatelessWidget implements PreferredSizeWidget {
           : null,
       title: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Color(0xFFE8EDF3),
+          color: textColor,
         ),
       ),
       actions: actions,
@@ -335,12 +401,21 @@ class _ProgressRingPainter extends CustomPainter {
 }
 
 class NeumorphicColors {
+  // Dark theme colors (default)
   static const background = Color(0xFF1A1D23);
   static const card = Color(0xFF2A2F38);
   static const textPrimary = Color(0xFFE8EDF3);
   static const textSecondary = Color(0xFF9BA5B4);
   static const textTertiary = Color(0xFF6D737A);
 
+  // Light theme colors - Warm milk/cream tones
+  static const backgroundLight = Color(0xFFF5F1E8); // Warm cream
+  static const cardLight = Color(0xFFFFFBF5); // Soft milk white
+  static const textPrimaryLight = Color(0xFF2C2416); // Dark brown
+  static const textSecondaryLight = Color(0xFF6B5D4F); // Medium brown
+  static const textTertiaryLight = Color(0xFF9B8B7E); // Light brown
+
+  // Accent colors (same for both themes)
   static const purple = Color(0xFF8B7FFF);
   static const purpleLight = Color(0xFFB8A8FF);
   static const mint = Color(0xFF7FDFB1);
@@ -349,4 +424,33 @@ class NeumorphicColors {
   static const orange = Color(0xFFFFB88C);
   static const coral = Color(0xFFFF9B9B);
   static const lavender = Color(0xFFB8A8FF);
+
+  // Helper methods to get theme-aware colors
+  static Color getBackground(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? background
+        : backgroundLight;
+  }
+
+  static Color getCard(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark ? card : cardLight;
+  }
+
+  static Color getTextPrimary(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? textPrimary
+        : textPrimaryLight;
+  }
+
+  static Color getTextSecondary(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? textSecondary
+        : textSecondaryLight;
+  }
+
+  static Color getTextTertiary(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? textTertiary
+        : textTertiaryLight;
+  }
 }

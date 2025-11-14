@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen>
     const userName = 'Friend';
 
     return Scaffold(
-      backgroundColor: NeumorphicColors.background,
+      backgroundColor: NeumorphicColors.getBackground(context),
       drawer: const CustomDrawer(),
       body: FadeTransition(
         opacity: _fadeAnimation,
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen>
       expandedHeight: 140,
       floating: false,
       pinned: true,
-      backgroundColor: NeumorphicColors.background,
+      backgroundColor: NeumorphicColors.getBackground(context),
       elevation: 0,
       leading: Builder(
         builder: (context) => Padding(
@@ -95,56 +95,32 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
       ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: NeumorphicButton(
-            icon: Icons.analytics_rounded,
-            onTap: () => Navigator.pushNamed(context, '/reports'),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: NeumorphicButton(
-            icon: Icons.medical_services_rounded,
-            onTap: () => Navigator.pushNamed(context, '/doctor-connect'),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: NeumorphicButton(
-            icon: Icons.emergency_rounded,
-            onTap: () => Navigator.pushNamed(context, '/emergency'),
-          ),
-        ),
-        const SizedBox(width: 8),
-      ],
-      flexibleSpace: FlexibleSpaceBar(
-        centerTitle: false,
-        titlePadding: const EdgeInsets.only(left: 20, bottom: 16),
-        title: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+      actions: const [SizedBox(width: 16)],
+      flexibleSpace: LayoutBuilder(
+        builder: (context, constraints) {
+          final expandRatio =
+              (constraints.maxHeight - kToolbarHeight) / (140 - kToolbarHeight);
+          final leftPadding = 20 + (52 * (1 - expandRatio));
+
+          return FlexibleSpaceBar(
+            centerTitle: false,
+            titlePadding: EdgeInsets.only(
+              left: leftPadding,
+              bottom: 16,
+              right: 20,
+            ),
+            title: Text(
               '${_getGreeting()}, $userName 👋',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: NeumorphicColors.textPrimary,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'How are you feeling today?',
               style: TextStyle(
-                fontSize: 13,
-                color: NeumorphicColors.textSecondary.withValues(alpha: 0.9),
-                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: NeumorphicColors.getTextPrimary(context),
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -177,12 +153,12 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                     ),
                     const SizedBox(width: 12),
-                    const Text(
+                    Text(
                       'How are you feeling?',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: NeumorphicColors.textPrimary,
+                        color: NeumorphicColors.getTextPrimary(context),
                       ),
                     ),
                   ],
@@ -203,7 +179,9 @@ class _HomeScreenState extends State<HomeScreen>
                   'Tap to log your mood',
                   style: TextStyle(
                     fontSize: 12,
-                    color: NeumorphicColors.textTertiary.withValues(alpha: 0.7),
+                    color: NeumorphicColors.getTextTertiary(
+                      context,
+                    ).withValues(alpha: 0.7),
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -217,6 +195,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _buildMoodButton(String emoji, int index, String label) {
     final isSelected = _selectedMood == index;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: () {
         setState(() => _selectedMood = index);
@@ -228,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen>
         height: 56,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: NeumorphicColors.card,
+          color: NeumorphicColors.getCard(context),
           boxShadow: isSelected
               ? [
                   BoxShadow(
@@ -237,7 +217,8 @@ class _HomeScreenState extends State<HomeScreen>
                     spreadRadius: 2,
                   ),
                 ]
-              : [
+              : isDark
+              ? [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.6),
                     offset: const Offset(4, 4),
@@ -246,6 +227,20 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                   BoxShadow(
                     color: Colors.white.withValues(alpha: 0.03),
+                    offset: const Offset(-4, -4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    offset: const Offset(4, 4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                  BoxShadow(
+                    color: Colors.white.withValues(alpha: 0.9),
                     offset: const Offset(-4, -4),
                     blurRadius: 12,
                     spreadRadius: -2,
@@ -326,9 +321,9 @@ class _HomeScreenState extends State<HomeScreen>
             const SizedBox(height: 4),
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
-                color: NeumorphicColors.textTertiary,
+                color: NeumorphicColors.getTextTertiary(context),
                 fontWeight: FontWeight.w500,
               ),
               textAlign: TextAlign.center,
@@ -347,12 +342,12 @@ class _HomeScreenState extends State<HomeScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Quick Actions',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: NeumorphicColors.textPrimary,
+                color: NeumorphicColors.getTextPrimary(context),
               ),
             ),
             const SizedBox(height: 16),
@@ -402,28 +397,45 @@ class _HomeScreenState extends State<HomeScreen>
     required Color color,
     required VoidCallback onTap,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 100,
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
         decoration: BoxDecoration(
-          color: NeumorphicColors.card,
+          color: NeumorphicColors.getCard(context),
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.6),
-              offset: const Offset(4, 4),
-              blurRadius: 12,
-              spreadRadius: -2,
-            ),
-            BoxShadow(
-              color: Colors.white.withValues(alpha: 0.03),
-              offset: const Offset(-4, -4),
-              blurRadius: 12,
-              spreadRadius: -2,
-            ),
-          ],
+          boxShadow: isDark
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.6),
+                    offset: const Offset(4, 4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                  BoxShadow(
+                    color: Colors.white.withValues(alpha: 0.03),
+                    offset: const Offset(-4, -4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    offset: const Offset(4, 4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                  BoxShadow(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    offset: const Offset(-4, -4),
+                    blurRadius: 12,
+                    spreadRadius: -2,
+                  ),
+                ],
         ),
         child: Column(
           children: [
@@ -448,10 +460,10 @@ class _HomeScreenState extends State<HomeScreen>
             const SizedBox(height: 8),
             Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: NeumorphicColors.textSecondary,
+                color: NeumorphicColors.getTextSecondary(context),
               ),
               textAlign: TextAlign.center,
             ),
@@ -622,12 +634,12 @@ class _HomeScreenState extends State<HomeScreen>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   "Today's Activities",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: NeumorphicColors.textPrimary,
+                    color: NeumorphicColors.getTextPrimary(context),
                   ),
                 ),
                 TextButton(
@@ -697,18 +709,18 @@ class _HomeScreenState extends State<HomeScreen>
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: NeumorphicColors.textPrimary,
+                    color: NeumorphicColors.getTextPrimary(context),
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   time,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
-                    color: NeumorphicColors.textSecondary,
+                    color: NeumorphicColors.getTextSecondary(context),
                   ),
                 ),
               ],
@@ -770,19 +782,19 @@ class _HomeScreenState extends State<HomeScreen>
                   children: [
                     Text(
                       _getRandomQuote(),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontStyle: FontStyle.italic,
-                        color: NeumorphicColors.textSecondary,
+                        color: NeumorphicColors.getTextSecondary(context),
                         height: 1.5,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       '- Daily Inspiration',
                       style: TextStyle(
                         fontSize: 12,
-                        color: NeumorphicColors.textTertiary,
+                        color: NeumorphicColors.getTextTertiary(context),
                         fontWeight: FontWeight.w500,
                       ),
                     ),

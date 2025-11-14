@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../core/constants/app_colors.dart';
+import '../../../core/widgets/neumorphic_widgets.dart';
 import '../../../shared/providers/theme_provider.dart';
 import '../../../shared/providers/language_provider.dart';
 import '../../auth/services/firebase_auth_service.dart';
 import '../../auth/models/user_profile_model.dart';
 
+/// Neumorphic Redesigned Custom Drawer
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
 
@@ -50,163 +51,142 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
     final languageProvider = context.watch<LanguageProvider>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Drawer(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [AppColors.primary, AppColors.skyBlue],
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              // Profile Section
-              _buildProfileSection(),
+      backgroundColor: NeumorphicColors.getBackground(context),
+      child: SafeArea(
+        child: Column(
+          children: [
+            // Profile Section
+            _buildProfileSection(),
 
-              const SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-              // Menu Items
-              Expanded(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    ),
-                  ),
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 24,
-                    ),
-                    children: [
-                      // Dark Mode Switch
-                      _buildSwitchTile(
-                        icon: themeProvider.isDarkMode
-                            ? Icons.dark_mode_rounded
-                            : Icons.light_mode_rounded,
-                        title: themeProvider.isDarkMode
-                            ? 'Dark Mode'
-                            : 'Light Mode',
-                        subtitle: 'Toggle theme',
-                        value: themeProvider.isDarkMode,
-                        onChanged: (value) {
-                          themeProvider.toggleTheme();
-                        },
-                        color: themeProvider.isDarkMode
-                            ? AppColors.charcoal
-                            : Colors.amber,
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      // Language Selection
-                      _buildMenuTile(
-                        icon: Icons.language_rounded,
-                        title: 'Language',
-                        subtitle: languageProvider.languageCode == 'en'
-                            ? 'English'
-                            : 'हिंदी',
-                        onTap: () {
-                          _showLanguageDialog(context, languageProvider);
-                        },
-                        color: AppColors.lavender,
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      // Export Data
-                      _buildMenuTile(
-                        icon: Icons.download_rounded,
-                        title: 'Export Data',
-                        subtitle: 'Download your data',
-                        onTap: () {
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Exporting data...'),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                        },
-                        color: AppColors.pastelGreen,
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      // About DEVRITI
-                      _buildMenuTile(
-                        icon: Icons.info_rounded,
-                        title: 'About DEVRITI',
-                        subtitle: 'App information',
-                        onTap: () {
-                          Navigator.pop(context);
-                          _showAboutDialog(context);
-                        },
-                        color: AppColors.skyBlue,
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Divider
-                      Divider(color: Colors.grey.shade300, thickness: 1),
-
-                      const SizedBox(height: 24),
-
-                      // Made by DEVRITI Team
-                      Center(
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withValues(alpha: 0.1),
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.favorite,
-                                color: AppColors.primary,
-                                size: 32,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            const Text(
-                              'Made with ❤️ by',
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              'DEVRITI Team',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.primary,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Version 1.0.0',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey.shade600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+            // Menu Items
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 8,
                 ),
+                children: [
+                  // Dark Mode Switch
+                  _buildSwitchTile(
+                    context: context,
+                    icon: isDark
+                        ? Icons.dark_mode_rounded
+                        : Icons.light_mode_rounded,
+                    title: isDark ? 'Dark Mode' : 'Light Mode',
+                    subtitle: 'Toggle theme',
+                    value: isDark,
+                    onChanged: (value) {
+                      themeProvider.toggleTheme();
+                    },
+                    color: isDark
+                        ? NeumorphicColors.purple
+                        : NeumorphicColors.orange,
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // Language Selection
+                  _buildMenuTile(
+                    context: context,
+                    icon: Icons.language_rounded,
+                    title: 'Language',
+                    subtitle: languageProvider.languageCode == 'en'
+                        ? 'English'
+                        : 'हिंदी',
+                    onTap: () {
+                      _showLanguageDialog(context, languageProvider);
+                    },
+                    color: NeumorphicColors.mint,
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // Export Data
+                  _buildMenuTile(
+                    context: context,
+                    icon: Icons.download_rounded,
+                    title: 'Export Data',
+                    subtitle: 'Download your data',
+                    onTap: () {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Exporting data...'),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    },
+                    color: NeumorphicColors.blue,
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // About DEVRITI
+                  _buildMenuTile(
+                    context: context,
+                    icon: Icons.info_rounded,
+                    title: 'About DEVRITI',
+                    subtitle: 'App information',
+                    onTap: () {
+                      Navigator.pop(context);
+                      _showAboutDialog(context);
+                    },
+                    color: NeumorphicColors.coral,
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // Made by DEVRITI Team
+                  Center(
+                    child: Column(
+                      children: [
+                        NeumorphicContainer(
+                          width: 60,
+                          height: 60,
+                          isCircle: true,
+                          child: const Icon(
+                            Icons.favorite,
+                            color: NeumorphicColors.coral,
+                            size: 28,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Made with ❤️ by',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: NeumorphicColors.textSecondary,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        const Text(
+                          'DEVRITI Team',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: NeumorphicColors.purple,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Version 1.0.0',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: NeumorphicColors.textTertiary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -217,77 +197,69 @@ class _CustomDrawerState extends State<CustomDrawer> {
       return Container(
         padding: const EdgeInsets.all(24),
         child: const Center(
-          child: CircularProgressIndicator(color: Colors.white),
+          child: CircularProgressIndicator(color: NeumorphicColors.purple),
         ),
       );
     }
 
-    return Container(
-      padding: const EdgeInsets.all(24),
-      child: Row(
-        children: [
-          // Profile Avatar
-          Container(
-            width: 70,
-            height: 70,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 3),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Center(
-              child: Text(
-                _profile?.name?.substring(0, 1).toUpperCase() ?? 'U',
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: NeumorphicCard(
+        child: Row(
+          children: [
+            // Profile Avatar
+            NeumorphicContainer(
+              width: 60,
+              height: 60,
+              isCircle: true,
+              child: Center(
+                child: Text(
+                  _profile?.name?.substring(0, 1).toUpperCase() ?? 'U',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: NeumorphicColors.purple,
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: 16),
-          // Profile Info
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _profile?.name ?? 'User',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+            const SizedBox(width: 16),
+            // Profile Info
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _profile?.name ?? 'User',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: NeumorphicColors.textPrimary,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  _profile?.email ?? 'user@devriti.app',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.white.withValues(alpha: 0.9),
+                  const SizedBox(height: 4),
+                  Text(
+                    _profile?.email ?? 'user@devriti.app',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: NeumorphicColors.textSecondary,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildSwitchTile({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required String subtitle,
@@ -295,84 +267,95 @@ class _CustomDrawerState extends State<CustomDrawer> {
     required ValueChanged<bool> onChanged,
     required Color color,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
-      ),
-      child: SwitchListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        secondary: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(12),
+    return NeumorphicCard(
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        children: [
+          NeumorphicContainer(
+            width: 48,
+            height: 48,
+            isCircle: true,
+            backgroundColor: NeumorphicColors.getCard(context),
+            child: Icon(icon, color: color, size: 24),
           ),
-          child: Icon(icon, color: Colors.white, size: 22),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: NeumorphicColors.getTextPrimary(context),
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: NeumorphicColors.getTextSecondary(context),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(
-            fontSize: 12,
-            color: AppColors.textSecondary.withValues(alpha: 0.7),
-          ),
-        ),
-        value: value,
-        onChanged: onChanged,
-        activeColor: color,
+          Switch(value: value, onChanged: onChanged, activeTrackColor: color),
+        ],
       ),
     );
   }
 
   Widget _buildMenuTile({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required String subtitle,
     required VoidCallback onTap,
     required Color color,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        leading: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(icon, color: Colors.white, size: 22),
+    return GestureDetector(
+      onTap: onTap,
+      child: NeumorphicCard(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            NeumorphicContainer(
+              width: 48,
+              height: 48,
+              isCircle: true,
+              backgroundColor: NeumorphicColors.getCard(context),
+              child: Icon(icon, color: color, size: 24),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: NeumorphicColors.getTextPrimary(context),
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: NeumorphicColors.getTextSecondary(context),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios_rounded, size: 16, color: color),
+          ],
         ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(
-            fontSize: 12,
-            color: AppColors.textSecondary.withValues(alpha: 0.7),
-          ),
-        ),
-        trailing: Icon(Icons.arrow_forward_ios, size: 16, color: color),
-        onTap: onTap,
       ),
     );
   }
@@ -384,12 +367,25 @@ class _CustomDrawerState extends State<CustomDrawer> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: NeumorphicColors.card,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.language_rounded, color: AppColors.primary),
-            SizedBox(width: 12),
-            Text('Choose Language'),
+            NeumorphicContainer(
+              width: 40,
+              height: 40,
+              isCircle: true,
+              child: const Icon(
+                Icons.language_rounded,
+                color: NeumorphicColors.mint,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Choose Language',
+              style: TextStyle(color: NeumorphicColors.textPrimary),
+            ),
           ],
         ),
         content: Column(
@@ -434,11 +430,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primary.withValues(alpha: 0.1)
-              : Colors.grey.shade100,
+              ? NeumorphicColors.purple.withValues(alpha: 0.2)
+              : NeumorphicColors.background,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? AppColors.primary : Colors.grey.shade300,
+            color: isSelected
+                ? NeumorphicColors.purple
+                : NeumorphicColors.textTertiary.withValues(alpha: 0.3),
             width: 2,
           ),
         ),
@@ -452,14 +450,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                  color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                  color: isSelected
+                      ? NeumorphicColors.purple
+                      : NeumorphicColors.textPrimary,
                 ),
               ),
             ),
             if (isSelected)
               const Icon(
                 Icons.check_circle,
-                color: AppColors.primary,
+                color: NeumorphicColors.purple,
                 size: 24,
               ),
           ],
@@ -472,12 +472,25 @@ class _CustomDrawerState extends State<CustomDrawer> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: NeumorphicColors.card,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.favorite, color: AppColors.primary, size: 32),
-            SizedBox(width: 12),
-            Text('About DEVRITI'),
+            NeumorphicContainer(
+              width: 40,
+              height: 40,
+              isCircle: true,
+              child: const Icon(
+                Icons.favorite,
+                color: NeumorphicColors.coral,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'About DEVRITI',
+              style: TextStyle(color: NeumorphicColors.textPrimary),
+            ),
           ],
         ),
         content: const SingleChildScrollView(
@@ -490,13 +503,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 style: TextStyle(
                   fontStyle: FontStyle.italic,
                   fontSize: 14,
-                  color: AppColors.textSecondary,
+                  color: NeumorphicColors.textSecondary,
                 ),
               ),
               SizedBox(height: 16),
               Text(
                 'DEVRITI is your mental health companion, providing instant AI-powered support through chat, mood tracking, self-care tools, and emergency help.',
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: NeumorphicColors.textPrimary,
+                ),
               ),
               SizedBox(height: 16),
               Text(
@@ -504,25 +520,36 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
+                  color: NeumorphicColors.purple,
                 ),
               ),
               SizedBox(height: 8),
               Text(
                 '🤖 AI-Powered - Gemini 2.0 Flash',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: NeumorphicColors.textPrimary,
+                ),
               ),
               SizedBox(height: 8),
               Text(
                 '🌐 Bilingual - English & Hindi',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: NeumorphicColors.textPrimary,
+                ),
               ),
               SizedBox(height: 16),
-              Divider(),
+              Divider(color: NeumorphicColors.textTertiary),
               SizedBox(height: 8),
               Text(
                 'Version 1.0.0',
-                style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: NeumorphicColors.textSecondary,
+                ),
               ),
             ],
           ),
@@ -530,7 +557,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            child: const Text(
+              'Close',
+              style: TextStyle(color: NeumorphicColors.purple),
+            ),
           ),
         ],
       ),
