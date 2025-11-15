@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/localization/app_localizations.dart';
 import '../../core/widgets/neumorphic_widgets.dart';
-import 'widgets/custom_drawer.dart';
 import 'widgets/welcome_card.dart';
 import 'widgets/ai_support_card.dart';
 import 'widgets/dashboard_grid.dart';
@@ -14,8 +13,9 @@ import 'widgets/week_review_chart.dart';
 /// Modern Neumorphic Home Screen with 3D Depth Effects
 class HomeScreen extends StatefulWidget {
   final bool showBackButton;
+  final VoidCallback? onMenuTap;
 
-  const HomeScreen({super.key, this.showBackButton = false});
+  const HomeScreen({super.key, this.showBackButton = false, this.onMenuTap});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -58,15 +58,13 @@ class _HomeScreenState extends State<HomeScreen>
 
     return Scaffold(
       backgroundColor: NeumorphicColors.getBackground(context),
-      drawer: const CustomDrawer(),
       body: FadeTransition(
         opacity: _fadeAnimation,
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-            _buildAppBar(context, userName),
-
             // Welcome Card with Mascot
+            const SliverToBoxAdapter(child: SizedBox(height: 20)),
             const SliverToBoxAdapter(child: WelcomeCard()),
 
             // AI Support Card
@@ -115,13 +113,11 @@ class _HomeScreenState extends State<HomeScreen>
                 onTap: () => Navigator.pop(context),
               ),
             )
-          : Builder(
-              builder: (context) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: NeumorphicButton(
-                  icon: Icons.menu_rounded,
-                  onTap: () => Scaffold.of(context).openDrawer(),
-                ),
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: NeumorphicButton(
+                icon: Icons.menu_rounded,
+                onTap: widget.onMenuTap ?? () {},
               ),
             ),
       actions: const [SizedBox(width: 16)],
