@@ -2,8 +2,7 @@
 class AppConstants {
   // App Info
   static const String appName = 'DEVRITI';
-  static const String appTagline =
-      "Instant help, no login needed — DEVRITI is here for you";
+  static const String appTagline = "One stop for every mind";
   static const String appVersion = '1.0.0';
 
   // Storage Keys (Local only - No Auth!)
@@ -11,7 +10,6 @@ class AppConstants {
   static const String keyThemeMode = 'theme_mode';
 
   // Hive Box Names (Local Storage)
-  static const String boxMood = 'mood_box';
   static const String boxChat = 'chat_box';
   static const String boxJournal = 'journal_box';
   static const String boxSelfCare = 'selfcare_box';
@@ -25,16 +23,6 @@ class AppConstants {
   static const int splashDuration = 2000; // milliseconds
   static const int animationDuration = 300; // milliseconds
   static const int typingIndicatorDelay = 1000; // milliseconds
-
-  // Mood Levels
-  static const List<String> moodEmojis = ['😄', '😊', '😐', '😔', '😢'];
-  static const List<String> moodLabels = [
-    'Very Happy',
-    'Happy',
-    'Neutral',
-    'Sad',
-    'Very Sad',
-  ];
 
   // Emergency Helplines (India)
   static const Map<String, String> helplines = {

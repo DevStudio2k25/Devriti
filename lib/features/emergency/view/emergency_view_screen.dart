@@ -24,7 +24,6 @@ class EmergencyScreen extends StatefulWidget {
 class _EmergencyScreenState extends State<EmergencyScreen>
     with SingleTickerProviderStateMixin {
   UserProfileModel? _profile;
-  bool _isLoading = true;
   late AnimationController _animationController;
 
   @override
@@ -52,17 +51,16 @@ class _EmergencyScreenState extends State<EmergencyScreen>
         if (mounted) {
           setState(() {
             _profile = profile;
-            _isLoading = false;
           });
         }
       } else {
         if (mounted) {
-          setState(() => _isLoading = false);
+          setState(() {});
         }
       }
     } catch (e) {
       if (mounted) {
-        setState(() => _isLoading = false);
+        setState(() {});
       }
     }
   }
@@ -104,7 +102,7 @@ class _EmergencyScreenState extends State<EmergencyScreen>
           ),
           HelplinesSection(l10n: l10n),
           const MotivationalMessage(),
-          const SliverToBoxAdapter(child: SizedBox(height: 32)),
+          const SliverToBoxAdapter(child: SizedBox(height: 100)),
         ],
       ),
     );

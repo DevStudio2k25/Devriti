@@ -225,7 +225,7 @@ class _RelaxSoundsTabState extends State<RelaxSoundsTab> {
             }, childCount: sounds.length),
           ),
         ),
-        const SliverToBoxAdapter(child: SizedBox(height: 16)),
+        const SliverToBoxAdapter(child: SizedBox(height: 100)),
       ],
     );
   }

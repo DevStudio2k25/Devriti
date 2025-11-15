@@ -104,6 +104,7 @@ class _DoctorConnectScreenState extends State<DoctorConnectScreen> {
             ),
           ),
           MotivationalFooter(l10n: l10n),
+          const SliverToBoxAdapter(child: SizedBox(height: 100)),
         ],
       ),
     );

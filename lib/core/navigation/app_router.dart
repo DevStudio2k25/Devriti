@@ -4,16 +4,18 @@ import '../../features/auth/login_screen.dart';
 import '../../features/auth/signup_screen.dart';
 import '../../features/auth/forgot_password_screen.dart';
 import '../../features/auth/profile_setup_screen.dart';
+import '../../features/auth/models/user_profile_model.dart';
 import '../../features/auth/widgets/auth_wrapper.dart';
 import '../../features/home/main_screen.dart';
 import '../../features/chat/view/chat_view_screen.dart';
 import '../../features/routine/daily_routine_screen.dart';
+import '../../features/routine/add_routine_screen.dart';
 import '../../features/self_care/view/self_care_screen.dart';
 import '../../features/doctor/view/doctor_connect_view_screen.dart';
 import '../../features/emergency/view/emergency_view_screen.dart';
 import '../../features/reports/reports_screen.dart';
 import '../../features/profile/view/profile_view_screen.dart';
-import '../../features/icon/icon_preview.dart';
+import '../../features/profile/edit/profile_edit_screen.dart';
 
 /// App routes
 class AppRoutes {
@@ -31,12 +33,14 @@ class AppRoutes {
   static const String home = '/';
   static const String chat = '/chat';
   static const String dailyRoutine = '/daily-routine';
+  static const String routine = '/routine';
+  static const String addRoutine = '/add-routine';
   static const String selfCare = '/self-care';
   static const String doctorConnect = '/doctor-connect';
   static const String emergency = '/emergency';
   static const String reports = '/reports';
   static const String profile = '/profile';
-  static const String iconPreview = '/icon-preview';
+  static const String profileEdit = '/profile/edit';
 }
 
 /// App Router for navigation
@@ -66,11 +70,18 @@ class AppRouter {
       case AppRoutes.home:
         return MaterialPageRoute(builder: (_) => const MainScreen());
       case AppRoutes.chat:
-        return MaterialPageRoute(builder: (_) => const ChatScreen());
+        // Pass session ID if provided in arguments, otherwise will load last session
+        final sessionId = settings.arguments as String?;
+        return MaterialPageRoute(
+          builder: (_) => ChatScreen(sessionId: sessionId),
+        );
       case AppRoutes.dailyRoutine:
+      case AppRoutes.routine:
         return MaterialPageRoute(
           builder: (_) => const DailyRoutineScreen(showBackButton: true),
         );
+      case AppRoutes.addRoutine:
+        return MaterialPageRoute(builder: (_) => const AddRoutineScreen());
       case AppRoutes.selfCare:
         return MaterialPageRoute(
           builder: (_) => const SelfCareScreen(showBackButton: true),
@@ -91,8 +102,20 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const ProfileViewScreen(showBackButton: true),
         );
-      case AppRoutes.iconPreview:
-        return MaterialPageRoute(builder: (_) => const IconPreviewPage());
+      case AppRoutes.profileEdit:
+        final profile = settings.arguments as UserProfileModel?;
+        if (profile == null) {
+          return MaterialPageRoute(
+            builder: (_) => Scaffold(
+              body: Center(
+                child: Text('Profile data required for ${settings.name}'),
+              ),
+            ),
+          );
+        }
+        return MaterialPageRoute(
+          builder: (_) => ProfileEditScreen(profile: profile),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

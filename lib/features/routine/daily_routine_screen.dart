@@ -162,6 +162,17 @@ class _DailyRoutineScreenState extends State<DailyRoutineScreen> {
               ),
             )
           : const SizedBox.shrink(), // No back button from navbar
+      actions: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: NeumorphicButton(
+            icon: Icons.add_rounded,
+            onTap: () {
+              Navigator.pushNamed(context, '/add-routine');
+            },
+          ),
+        ),
+      ],
       flexibleSpace: LayoutBuilder(
         builder: (context, constraints) {
           final expandRatio =

@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Progress animation
     _progressController = AnimationController(
-      duration: const Duration(seconds: 10),
+      duration: const Duration(seconds: 5),
       vsync: this,
     )..forward();
 
@@ -75,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _navigateToHome() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 5));
     if (mounted) {
       Navigator.of(context).pushReplacementNamed('/auth');
     }

@@ -103,7 +103,7 @@ class _ProfileViewScreenState extends State<ProfileViewScreen>
             _buildPersonalInfoSection(),
             _buildEmergencyContactSection(),
             _buildActionButtons(context),
-            const SliverToBoxAdapter(child: SizedBox(height: 32)),
+            const SliverToBoxAdapter(child: SizedBox(height: 100)),
           ],
         ),
       ),

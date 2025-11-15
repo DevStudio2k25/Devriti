@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/neumorphic_widgets.dart';
+import 'edit_emergency_contact_dialog.dart';
 
 class EmergencyContactCard extends StatelessWidget {
   final String contactName;
@@ -82,8 +83,30 @@ class EmergencyContactCard extends StatelessWidget {
                         ),
                         NeumorphicButton(
                           icon: Icons.edit_rounded,
-                          onTap: () {
-                            Navigator.pushNamed(context, '/profile/edit');
+                          onTap: () async {
+                            final result =
+                                await showDialog<Map<String, String>>(
+                                  context: context,
+                                  builder: (context) =>
+                                      EditEmergencyContactDialog(
+                                        currentName: contactName,
+                                        currentPhone: contactPhone,
+                                        currentRelation: contactRelation,
+                                      ),
+                                );
+
+                            if (result != null && context.mounted) {
+                              // TODO: Save to database/state management
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Contact updated: ${result['name']}',
+                                  ),
+                                  backgroundColor: NeumorphicColors.mint,
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
                           },
                         ),
                       ],
@@ -106,8 +129,26 @@ class EmergencyContactCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/profile/edit');
+                          onTap: () async {
+                            final result =
+                                await showDialog<Map<String, String>>(
+                                  context: context,
+                                  builder: (context) =>
+                                      const EditEmergencyContactDialog(),
+                                );
+
+                            if (result != null && context.mounted) {
+                              // TODO: Save to database/state management
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Contact added: ${result['name']}',
+                                  ),
+                                  backgroundColor: NeumorphicColors.mint,
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(

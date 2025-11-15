@@ -59,15 +59,6 @@ class GeminiChatService {
         // ignore: avoid_print
         print('🚨 [GEMINI] CRISIS DETECTED! Using crisis protocol');
 
-        final userMessage = MessageModel(
-          id: _uuid.v4(),
-          text: text,
-          messageType: MessageType.user.index,
-          timestamp: DateTime.now(),
-        );
-        await _chatRepository.saveMessage(userMessage);
-        _messageController.add(userMessage);
-
         // Use crisis intervention protocol
         final crisisMessage = MessageModel(
           id: _uuid.v4(),
@@ -82,7 +73,6 @@ class GeminiChatService {
           ],
         );
 
-        await _chatRepository.saveMessage(crisisMessage);
         _messageController.add(crisisMessage);
         return crisisMessage;
       }
@@ -93,17 +83,6 @@ class GeminiChatService {
       final detectedEmotion = EmotionDetectionRules.detectEmotion(text);
       // ignore: avoid_print
       print('😊 [GEMINI] Detected emotion: $detectedEmotion');
-
-      // Create user message
-      final userMessage = MessageModel(
-        id: _uuid.v4(),
-        text: text,
-        messageType: MessageType.user.index,
-        timestamp: DateTime.now(),
-      );
-
-      await _chatRepository.saveMessage(userMessage);
-      _messageController.add(userMessage);
 
       // ignore: avoid_print
       print('🔵 [GEMINI] Waiting for Gemini response...');
@@ -138,11 +117,10 @@ class GeminiChatService {
         suggestions: suggestions,
       );
 
-      await _chatRepository.saveMessage(aiMessage);
       _messageController.add(aiMessage);
 
       // ignore: avoid_print
-      print('✅ [GEMINI] Message saved with emotion: $detectedEmotion');
+      print('✅ [GEMINI] AI response created with emotion: $detectedEmotion');
 
       return aiMessage;
     } catch (e) {
@@ -163,7 +141,6 @@ class GeminiChatService {
         ],
       );
 
-      await _chatRepository.saveMessage(fallbackMessage);
       _messageController.add(fallbackMessage);
 
       return fallbackMessage;

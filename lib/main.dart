@@ -14,7 +14,7 @@ import 'core/localization/app_localizations.dart';
 import 'shared/providers/theme_provider.dart';
 import 'shared/providers/language_provider.dart';
 import 'features/chat/models/message_model.dart';
-// import 'features/mood/models/mood_entry_model.dart'; // Removed - mood tracker deleted
+import 'features/chat/models/chat_session_model.dart';
 import 'features/splash/splash_screen.dart';
 
 void main() async {
@@ -59,6 +59,7 @@ void main() async {
 
   // Register Hive adapters
   Hive.registerAdapter(MessageModelAdapter());
+  Hive.registerAdapter(ChatSessionModelAdapter());
   // Hive.registerAdapter(MoodEntryModelAdapter()); // Removed - mood tracker deleted
 
   runApp(const DevritiApp());

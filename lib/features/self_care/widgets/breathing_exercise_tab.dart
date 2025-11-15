@@ -204,6 +204,7 @@ class _BreathingExerciseTabState extends State<BreathingExerciseTab>
                 ],
               ),
             ),
+            const SizedBox(height: 100),
           ],
         ),
       ),
