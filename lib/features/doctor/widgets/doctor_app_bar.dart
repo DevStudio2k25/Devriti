@@ -4,8 +4,13 @@ import '../../../core/localization/app_localizations.dart';
 
 class DoctorAppBar extends StatelessWidget implements PreferredSizeWidget {
   final AppLocalizations l10n;
+  final bool showBackButton;
 
-  const DoctorAppBar({super.key, required this.l10n});
+  const DoctorAppBar({
+    super.key,
+    required this.l10n,
+    this.showBackButton = false,
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -15,13 +20,15 @@ class DoctorAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: NeumorphicColors.background,
       elevation: 0,
-      leading: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: NeumorphicButton(
-          icon: Icons.arrow_back_rounded,
-          onTap: () => Navigator.pop(context),
-        ),
-      ),
+      leading: showBackButton
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: NeumorphicButton(
+                icon: Icons.arrow_back_rounded,
+                onTap: () => Navigator.pop(context),
+              ),
+            )
+          : const SizedBox.shrink(),
       title: Row(
         children: [
           NeumorphicContainer(

@@ -9,7 +9,9 @@ import '../widgets/doctor_card.dart';
 import '../widgets/motivational_footer.dart';
 
 class DoctorConnectScreen extends StatefulWidget {
-  const DoctorConnectScreen({super.key});
+  final bool showBackButton;
+
+  const DoctorConnectScreen({super.key, this.showBackButton = false});
 
   @override
   State<DoctorConnectScreen> createState() => _DoctorConnectScreenState();
@@ -77,7 +79,7 @@ class _DoctorConnectScreenState extends State<DoctorConnectScreen> {
 
     return Scaffold(
       backgroundColor: NeumorphicColors.background,
-      appBar: DoctorAppBar(l10n: l10n),
+      appBar: DoctorAppBar(l10n: l10n, showBackButton: widget.showBackButton),
       body: CustomScrollView(
         slivers: [
           DoctorHeader(l10n: l10n),

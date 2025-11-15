@@ -6,7 +6,9 @@ import '../widgets/breathing_exercise_tab.dart';
 
 /// Modern Neumorphic Self Care Screen with 3D Depth
 class SelfCareScreen extends StatelessWidget {
-  const SelfCareScreen({super.key});
+  final bool showBackButton;
+
+  const SelfCareScreen({super.key, this.showBackButton = false});
 
   @override
   Widget build(BuildContext context) {

@@ -4,8 +4,13 @@ import '../../../core/localization/app_localizations.dart';
 
 class EmergencyAppBar extends StatelessWidget {
   final AppLocalizations l10n;
+  final bool showBackButton;
 
-  const EmergencyAppBar({super.key, required this.l10n});
+  const EmergencyAppBar({
+    super.key,
+    required this.l10n,
+    this.showBackButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +20,15 @@ class EmergencyAppBar extends StatelessWidget {
       pinned: true,
       backgroundColor: NeumorphicColors.background,
       elevation: 0,
-      leading: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: NeumorphicButton(
-          icon: Icons.arrow_back_rounded,
-          onTap: () => Navigator.pop(context),
-        ),
-      ),
+      leading: showBackButton
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: NeumorphicButton(
+                icon: Icons.arrow_back_rounded,
+                onTap: () => Navigator.pop(context),
+              ),
+            )
+          : const SizedBox.shrink(),
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         title: Row(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/widgets/neumorphic_widgets.dart';
 import 'home_screen.dart';
 import 'widgets/custom_drawer.dart';
-import '../mood/view/mood_tracker_view_screen.dart';
+import '../routine/daily_routine_screen.dart';
 import '../self_care/view/self_care_screen.dart';
 import '../profile/view/profile_view_screen.dart';
 import '../emergency/view/emergency_view_screen.dart';
@@ -27,14 +27,15 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Total 7 screens - Set 1: 4 pages | Set 2: 3 pages
+  // All screens from navbar have showBackButton = false (no back button)
   final List<Widget> _allScreens = [
-    const HomeScreen(),
-    const MoodTrackerScreen(),
-    const SelfCareScreen(),
-    const ProfileViewScreen(),
-    const EmergencyScreen(),
-    const DoctorConnectScreen(),
-    const ReportsScreen(),
+    const HomeScreen(showBackButton: false),
+    const DailyRoutineScreen(showBackButton: false),
+    const SelfCareScreen(showBackButton: false),
+    const ProfileViewScreen(showBackButton: false),
+    const EmergencyScreen(showBackButton: false),
+    const DoctorConnectScreen(showBackButton: false),
+    const ReportsScreen(showBackButton: false),
   ];
 
   // Total 7 nav items - Set 1: 4 pages, Set 2: 3 pages + shuffle button
@@ -45,9 +46,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
       label: 'Home',
     ),
     _NavItem(
-      icon: Icons.mood_rounded,
+      icon: Icons.calendar_today_rounded,
       color: NeumorphicColors.orange,
-      label: 'Mood',
+      label: 'Routine',
     ),
     _NavItem(
       icon: Icons.spa_rounded,

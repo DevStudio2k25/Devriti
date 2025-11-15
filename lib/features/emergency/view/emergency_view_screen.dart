@@ -13,7 +13,9 @@ import '../widgets/motivational_message.dart';
 
 /// Modern Neumorphic Emergency Screen with 3D Depth
 class EmergencyScreen extends StatefulWidget {
-  const EmergencyScreen({super.key});
+  final bool showBackButton;
+
+  const EmergencyScreen({super.key, this.showBackButton = false});
 
   @override
   State<EmergencyScreen> createState() => _EmergencyScreenState();
@@ -80,7 +82,7 @@ class _EmergencyScreenState extends State<EmergencyScreen>
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
-          EmergencyAppBar(l10n: l10n),
+          EmergencyAppBar(l10n: l10n, showBackButton: widget.showBackButton),
           const WarningBanner(),
           SOSButton(
             animationController: _animationController,

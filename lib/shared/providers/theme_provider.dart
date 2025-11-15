@@ -4,7 +4,7 @@ import '../../core/constants/app_constants.dart';
 
 /// Provider for managing app theme
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode _themeMode = ThemeMode.dark; // Default to dark theme
   late SharedPreferences _prefs;
 
   ThemeMode get themeMode => _themeMode;
@@ -17,10 +17,14 @@ class ThemeProvider extends ChangeNotifier {
     if (savedTheme != null) {
       _themeMode = ThemeMode.values.firstWhere(
         (mode) => mode.toString() == savedTheme,
-        orElse: () => ThemeMode.light,
+        orElse: () => ThemeMode.dark, // Default to dark if not found
       );
-      notifyListeners();
+    } else {
+      // If no saved theme, set dark as default
+      _themeMode = ThemeMode.dark;
+      await _prefs.setString(AppConstants.keyThemeMode, _themeMode.toString());
     }
+    notifyListeners();
   }
 
   /// Toggle between light and dark mode

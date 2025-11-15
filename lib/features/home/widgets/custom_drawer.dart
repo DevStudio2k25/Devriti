@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/widgets/neumorphic_widgets.dart';
-import '../../../shared/providers/theme_provider.dart';
+// import '../../../shared/providers/theme_provider.dart'; // Hidden - theme switch disabled
 import '../../../shared/providers/language_provider.dart';
 import '../../auth/services/firebase_auth_service.dart';
 import '../../auth/models/user_profile_model.dart';
@@ -49,9 +49,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = context.watch<ThemeProvider>();
+    // final themeProvider = context.watch<ThemeProvider>(); // Hidden - not needed
     final languageProvider = context.watch<LanguageProvider>();
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // final isDark = Theme.of(context).brightness == Brightness.dark; // Hidden - not needed
 
     return Drawer(
       backgroundColor: NeumorphicColors.getBackground(context),
@@ -71,24 +71,24 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   vertical: 8,
                 ),
                 children: [
-                  // Dark Mode Switch
-                  _buildSwitchTile(
-                    context: context,
-                    icon: isDark
-                        ? Icons.dark_mode_rounded
-                        : Icons.light_mode_rounded,
-                    title: isDark ? 'Dark Mode' : 'Light Mode',
-                    subtitle: 'Toggle theme',
-                    value: isDark,
-                    onChanged: (value) {
-                      themeProvider.toggleTheme();
-                    },
-                    color: isDark
-                        ? NeumorphicColors.purple
-                        : NeumorphicColors.orange,
-                  ),
-
-                  const SizedBox(height: 12),
+                  // Dark Mode Switch - HIDDEN (commented out)
+                  // _buildSwitchTile(
+                  //   context: context,
+                  //   icon: isDark
+                  //       ? Icons.dark_mode_rounded
+                  //       : Icons.light_mode_rounded,
+                  //   title: isDark ? 'Dark Mode' : 'Light Mode',
+                  //   subtitle: 'Toggle theme',
+                  //   value: isDark,
+                  //   onChanged: (value) {
+                  //     themeProvider.toggleTheme();
+                  //   },
+                  //   color: isDark
+                  //       ? NeumorphicColors.purple
+                  //       : NeumorphicColors.orange,
+                  // ),
+                  //
+                  // const SizedBox(height: 12),
 
                   // Language Selection
                   _buildMenuTile(

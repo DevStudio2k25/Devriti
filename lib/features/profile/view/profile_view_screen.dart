@@ -11,7 +11,9 @@ import 'widgets/profile_action_buttons_widget.dart';
 
 /// Modern Neumorphic Profile View Screen
 class ProfileViewScreen extends StatefulWidget {
-  const ProfileViewScreen({super.key});
+  final bool showBackButton;
+
+  const ProfileViewScreen({super.key, this.showBackButton = false});
 
   @override
   State<ProfileViewScreen> createState() => _ProfileViewScreenState();
@@ -223,13 +225,15 @@ class _ProfileViewScreenState extends State<ProfileViewScreen>
       pinned: true,
       backgroundColor: NeumorphicColors.background,
       elevation: 0,
-      leading: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: NeumorphicButton(
-          icon: Icons.arrow_back_rounded,
-          onTap: () => Navigator.pop(context),
-        ),
-      ),
+      leading: widget.showBackButton
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: NeumorphicButton(
+                icon: Icons.arrow_back_rounded,
+                onTap: () => Navigator.pop(context),
+              ),
+            )
+          : const SizedBox.shrink(),
       flexibleSpace: const FlexibleSpaceBar(
         centerTitle: true,
         title: Text(

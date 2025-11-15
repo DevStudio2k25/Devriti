@@ -4,10 +4,13 @@ import '../../core/constants/app_constants.dart';
 import '../../core/localization/app_localizations.dart';
 import '../../core/widgets/neumorphic_widgets.dart';
 import 'widgets/custom_drawer.dart';
+import 'widgets/welcome_card.dart';
 
 /// Modern Neumorphic Home Screen with 3D Depth Effects
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final bool showBackButton;
+
+  const HomeScreen({super.key, this.showBackButton = false});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -65,13 +68,17 @@ class _HomeScreenState extends State<HomeScreen>
           physics: const BouncingScrollPhysics(),
           slivers: [
             _buildAppBar(context, userName),
-            _buildMoodCheckCard(l10n),
-            _buildQuickStatsGrid(),
+
+            // Welcome Card with Mascot and Greeting
+            const SliverToBoxAdapter(child: WelcomeCard()),
+
+            // _buildMoodCheckCard(l10n), // Removed - no mood tracker
+            // _buildQuickStatsGrid(), // Removed - no chat/mood stats
             _buildQuickActionsRow(context),
             _buildAIChatCard(context),
             _buildTodayActivities(l10n),
             _buildMotivationalQuote(),
-            const SliverToBoxAdapter(child: SizedBox(height: 32)),
+            const SliverToBoxAdapter(child: SizedBox(height: 100)),
           ],
         ),
       ),
@@ -81,47 +88,29 @@ class _HomeScreenState extends State<HomeScreen>
   // Neumorphic AppBar with Actions
   SliverAppBar _buildAppBar(BuildContext context, String userName) {
     return SliverAppBar(
-      expandedHeight: 140,
+      expandedHeight: 80,
       floating: false,
       pinned: true,
       backgroundColor: NeumorphicColors.getBackground(context),
       elevation: 0,
-      leading: Builder(
-        builder: (context) => Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: NeumorphicButton(
-            icon: Icons.menu_rounded,
-            onTap: () => Scaffold.of(context).openDrawer(),
-          ),
-        ),
-      ),
-      actions: const [SizedBox(width: 16)],
-      flexibleSpace: LayoutBuilder(
-        builder: (context, constraints) {
-          final expandRatio =
-              (constraints.maxHeight - kToolbarHeight) / (140 - kToolbarHeight);
-          final leftPadding = 20 + (52 * (1 - expandRatio));
-
-          return FlexibleSpaceBar(
-            centerTitle: false,
-            titlePadding: EdgeInsets.only(
-              left: leftPadding,
-              bottom: 16,
-              right: 20,
-            ),
-            title: Text(
-              '${_getGreeting()}, $userName 👋',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: NeumorphicColors.getTextPrimary(context),
+      leading: widget.showBackButton
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: NeumorphicButton(
+                icon: Icons.arrow_back_rounded,
+                onTap: () => Navigator.pop(context),
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            )
+          : Builder(
+              builder: (context) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: NeumorphicButton(
+                  icon: Icons.menu_rounded,
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                ),
+              ),
             ),
-          );
-        },
-      ),
+      actions: const [SizedBox(width: 16)],
     );
   }
 
