@@ -106,17 +106,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
                   const SizedBox(height: 12),
 
-                  // Export Data
+                  // Export Data - Coming Soon
                   _buildMenuTile(
                     context: context,
                     icon: Icons.download_rounded,
                     title: 'Export Data',
-                    subtitle: 'Download your data',
+                    subtitle: 'Coming Soon',
                     onTap: () {
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Exporting data...'),
+                          content: Text('Feature coming soon! 🚀'),
                           behavior: SnackBarBehavior.floating,
                         ),
                       );
@@ -134,7 +134,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     subtitle: 'App information',
                     onTap: () {
                       Navigator.pop(context);
-                      _showAboutDialog(context);
+                      Navigator.pushNamed(context, '/about');
                     },
                     color: NeumorphicColors.coral,
                   ),
@@ -420,149 +420,78 @@ class _CustomDrawerState extends State<CustomDrawer> {
     required String flag,
   }) {
     final isSelected = languageProvider.languageCode == languageCode;
+    final isDisabled = languageCode == 'hi'; // Hindi is disabled
 
     return GestureDetector(
-      onTap: () {
-        languageProvider.changeLanguage(languageCode);
-        Navigator.pop(context);
-      },
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? NeumorphicColors.purple.withValues(alpha: 0.2)
-              : NeumorphicColors.background,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
+      onTap: isDisabled
+          ? null
+          : () {
+              languageProvider.changeLanguage(languageCode);
+              Navigator.pop(context);
+            },
+      child: Opacity(
+        opacity: isDisabled ? 0.5 : 1.0,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
             color: isSelected
-                ? NeumorphicColors.purple
-                : NeumorphicColors.textTertiary.withValues(alpha: 0.3),
-            width: 2,
+                ? NeumorphicColors.purple.withValues(alpha: 0.2)
+                : NeumorphicColors.background,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isSelected
+                  ? NeumorphicColors.purple
+                  : NeumorphicColors.textTertiary.withValues(alpha: 0.3),
+              width: 2,
+            ),
           ),
-        ),
-        child: Row(
-          children: [
-            Text(flag, style: const TextStyle(fontSize: 28)),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Text(
-                languageName,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                  color: isSelected
-                      ? NeumorphicColors.purple
-                      : NeumorphicColors.textPrimary,
-                ),
-              ),
-            ),
-            if (isSelected)
-              const Icon(
-                Icons.check_circle,
-                color: NeumorphicColors.purple,
-                size: 24,
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showAboutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: NeumorphicColors.card,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Row(
-          children: [
-            NeumorphicContainer(
-              width: 40,
-              height: 40,
-              isCircle: true,
-              child: const Icon(
-                Icons.favorite,
-                color: NeumorphicColors.coral,
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 12),
-            const Text(
-              'About DEVRITI',
-              style: TextStyle(color: NeumorphicColors.textPrimary),
-            ),
-          ],
-        ),
-        content: const SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+          child: Row(
             children: [
-              Text(
-                '"Instant help, no login needed — DEVRITI is here for you"',
-                style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  fontSize: 14,
-                  color: NeumorphicColors.textSecondary,
+              Text(flag, style: const TextStyle(fontSize: 28)),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      languageName,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.w500,
+                        color: isSelected
+                            ? NeumorphicColors.purple
+                            : NeumorphicColors.textPrimary,
+                      ),
+                    ),
+                    if (isDisabled)
+                      const Text(
+                        'Coming in future updates',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: NeumorphicColors.textTertiary,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                  ],
                 ),
               ),
-              SizedBox(height: 16),
-              Text(
-                'DEVRITI is your mental health companion, providing instant AI-powered support through chat, mood tracking, self-care tools, and emergency help.',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: NeumorphicColors.textPrimary,
-                ),
-              ),
-              SizedBox(height: 16),
-              Text(
-                '🔒 100% Private - All data stays on your device',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
+              if (isSelected)
+                const Icon(
+                  Icons.check_circle,
                   color: NeumorphicColors.purple,
+                  size: 24,
                 ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                '🤖 AI-Powered - Gemini 2.0 Flash',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: NeumorphicColors.textPrimary,
+              if (isDisabled && !isSelected)
+                const Icon(
+                  Icons.lock_outline,
+                  color: NeumorphicColors.textTertiary,
+                  size: 20,
                 ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                '🌐 Bilingual - English & Hindi',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: NeumorphicColors.textPrimary,
-                ),
-              ),
-              SizedBox(height: 16),
-              Divider(color: NeumorphicColors.textTertiary),
-              SizedBox(height: 8),
-              Text(
-                'Version 1.0.0',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: NeumorphicColors.textSecondary,
-                ),
-              ),
             ],
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Close',
-              style: TextStyle(color: NeumorphicColors.purple),
-            ),
-          ),
-        ],
       ),
     );
   }

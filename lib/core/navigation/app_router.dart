@@ -16,6 +16,7 @@ import '../../features/emergency/view/emergency_view_screen.dart';
 import '../../features/reports/reports_screen.dart';
 import '../../features/profile/view/profile_view_screen.dart';
 import '../../features/profile/edit/profile_edit_screen.dart';
+import '../../features/about/about_screen.dart';
 
 /// App routes
 class AppRoutes {
@@ -41,6 +42,7 @@ class AppRoutes {
   static const String reports = '/reports';
   static const String profile = '/profile';
   static const String profileEdit = '/profile/edit';
+  static const String about = '/about';
 }
 
 /// App Router for navigation
@@ -116,6 +118,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => ProfileEditScreen(profile: profile),
         );
+      case AppRoutes.about:
+        return MaterialPageRoute(builder: (_) => const AboutScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
