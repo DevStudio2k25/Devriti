@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/widgets/neumorphic_widgets.dart';
 import '../../auth/models/user_profile_model.dart';
 import '../../auth/services/firebase_auth_service.dart';
+import '../../auth/widgets/custom_date_picker.dart';
 import 'widgets/edit_text_field_widget.dart';
 import 'widgets/gender_selector_widget.dart';
 import 'widgets/profession_selector_widget.dart';
@@ -253,7 +254,14 @@ class _ProfileEditScreenState extends State<ProfileEditScreen>
                 },
               ),
               const SizedBox(height: 16),
-              _buildDatePicker(),
+              CustomDatePicker(
+                selectedDate: _dateOfBirth,
+                onDateSelected: (date) {
+                  setState(() => _dateOfBirth = date);
+                },
+                label: 'Date of Birth',
+                hint: 'Select your date of birth',
+              ),
               const SizedBox(height: 16),
               GenderSelectorWidget(
                 selectedGender: _selectedGender,
@@ -330,83 +338,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen>
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildDatePicker() {
-    return GestureDetector(
-      onTap: () async {
-        final date = await showDatePicker(
-          context: context,
-          initialDate: _dateOfBirth ?? DateTime(2000),
-          firstDate: DateTime(1900),
-          lastDate: DateTime.now(),
-          builder: (context, child) {
-            return Theme(
-              data: ThemeData.dark().copyWith(
-                colorScheme: const ColorScheme.dark(
-                  primary: NeumorphicColors.purple,
-                  surface: NeumorphicColors.card,
-                ),
-              ),
-              child: child!,
-            );
-          },
-        );
-        if (date != null) {
-          setState(() => _dateOfBirth = date);
-        }
-      },
-      child: NeumorphicCard(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            NeumorphicContainer(
-              width: 40,
-              height: 40,
-              child: const Icon(
-                Icons.cake_outlined,
-                color: NeumorphicColors.purple,
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Date of Birth',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: NeumorphicColors.textTertiary,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _dateOfBirth != null
-                        ? '${_dateOfBirth!.day}/${_dateOfBirth!.month}/${_dateOfBirth!.year}'
-                        : 'Select date',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: _dateOfBirth != null
-                          ? NeumorphicColors.textPrimary
-                          : NeumorphicColors.textTertiary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Icon(
-              Icons.calendar_today_outlined,
-              color: NeumorphicColors.textTertiary,
-              size: 20,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

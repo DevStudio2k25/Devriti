@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/app_colors.dart';
+import '../../core/widgets/neumorphic_widgets.dart';
 import 'services/firebase_auth_service.dart';
-import 'widgets/auth_background.dart';
-import 'widgets/auth_logo.dart';
-import 'widgets/auth_card.dart';
-import 'widgets/auth_text_field.dart';
-import 'widgets/auth_button.dart';
-import 'widgets/auth_link_text.dart';
 
+/// Neumorphic Forgot Password Screen
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
@@ -55,36 +50,31 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('Password reset link sent to your email! 📧'),
-              backgroundColor: AppColors.success,
+              content: const Text(
+                'Password reset email sent! Check your inbox.',
+              ),
+              backgroundColor: NeumorphicColors.mint,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
           );
-
-          await Future.delayed(const Duration(milliseconds: 500));
-          if (mounted) {
-            Navigator.pop(context);
-          }
+          Navigator.pop(context);
         }
       } catch (e) {
         if (mounted) {
+          setState(() => _isLoading = false);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(e.toString()),
-              backgroundColor: AppColors.error,
+              content: Text('Error: $e'),
+              backgroundColor: NeumorphicColors.coral,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
           );
-        }
-      } finally {
-        if (mounted) {
-          setState(() => _isLoading = false);
         }
       }
     }
@@ -92,159 +82,118 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: SizedBox(
-            height: size.height - MediaQuery.of(context).padding.top,
-            child: Stack(
-              children: [
-                // Reusable Background
-                const AuthBackground(),
-
-                // Main Content
-                Center(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Back Button
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.surface,
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: AppColors.shadow,
-                                  blurRadius: 10,
-                                  offset: Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                color: AppColors.textPrimary,
-                              ),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Reusable Logo (Purple theme)
-                        const AuthLogo(
-                          size: 80,
-                          icon: Icons.lock_reset_rounded,
-                          color: AppColors.accent,
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // Header Text
-                        _buildHeaderText(),
-
-                        const SizedBox(height: 24),
-
-                        // Reusable Card with Form
-                        AuthCard(
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                // Info Text
-                                Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.info.withValues(
-                                      alpha: 0.1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: AppColors.info.withValues(
-                                        alpha: 0.3,
-                                      ),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.info_outline,
-                                        color: AppColors.info,
-                                        size: 20,
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Expanded(
-                                        child: Text(
-                                          'Enter your email and we\'ll send you a link to reset your password',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: AppColors.textPrimary,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                const SizedBox(height: 20),
-
-                                // Email Field
-                                AuthTextField(
-                                  controller: _emailController,
-                                  label: 'Email Address',
-                                  hint: 'your@email.com',
-                                  icon: Icons.email_outlined,
-                                  keyboardType: TextInputType.emailAddress,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your email';
-                                    }
-                                    if (!value.contains('@')) {
-                                      return 'Please enter a valid email';
-                                    }
-                                    return null;
-                                  },
-                                ),
-
-                                const SizedBox(height: 20),
-
-                                // Reset Button
-                                AuthButton(
-                                  text: 'Send Reset Link',
-                                  onPressed: _handleResetPassword,
-                                  isLoading: _isLoading,
-                                  backgroundColor: AppColors.accent,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // Back to Login Link
-                        AuthLinkText(
-                          normalText: 'Remember your password? ',
-                          linkText: 'Sign In',
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
+      backgroundColor: NeumorphicColors.getBackground(context),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: NeumorphicButton(
+            icon: Icons.arrow_back_rounded,
+            onTap: () => Navigator.pop(context),
+          ),
+        ),
+      ),
+      body: FadeTransition(
+        opacity: _fadeAnimation,
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Icon
+                    NeumorphicContainer(
+                      width: 100,
+                      height: 100,
+                      isCircle: true,
+                      child: const Icon(
+                        Icons.lock_reset_rounded,
+                        color: NeumorphicColors.blue,
+                        size: 50,
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 24),
+                    Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: NeumorphicColors.getTextPrimary(context),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Enter your email to reset password',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: NeumorphicColors.getTextSecondary(context),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 40),
+
+                    // Email Field
+                    _buildTextField(
+                      controller: _emailController,
+                      label: 'Email',
+                      icon: Icons.email_outlined,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        if (!value.contains('@')) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 32),
+
+                    // Reset Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: _isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: NeumorphicColors.blue,
+                              ),
+                            )
+                          : NeumorphicButton(
+                              label: 'Send Reset Link',
+                              onTap: _handleResetPassword,
+                              gradient: const LinearGradient(
+                                colors: [
+                                  NeumorphicColors.blue,
+                                  NeumorphicColors.mint,
+                                ],
+                              ),
+                            ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Back to Login
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Back to Login',
+                        style: TextStyle(
+                          color: NeumorphicColors.purple,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -252,27 +201,74 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>
     );
   }
 
-  Widget _buildHeaderText() {
-    return const Column(
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    TextInputType? keyboardType,
+    String? Function(String?)? validator,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Forgot Password?',
-          style: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
-            letterSpacing: -0.5,
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 8),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              color: NeumorphicColors.getTextSecondary(context),
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
-        SizedBox(height: 8),
-        Text(
-          'No worries, we\'ll help you reset it',
-          style: TextStyle(
-            fontSize: 15,
-            color: AppColors.textSecondary,
-            fontWeight: FontWeight.w500,
+        Container(
+          decoration: BoxDecoration(
+            color: NeumorphicColors.getBackground(context),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: isDark
+                    ? Colors.black.withValues(alpha: 0.6)
+                    : Colors.black.withValues(alpha: 0.2),
+                offset: const Offset(6, 6),
+                blurRadius: 12,
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.05)
+                    : Colors.white.withValues(alpha: 0.9),
+                offset: const Offset(-6, -6),
+                blurRadius: 12,
+                spreadRadius: 0,
+              ),
+            ],
           ),
-          textAlign: TextAlign.center,
+          child: TextFormField(
+            controller: controller,
+            keyboardType: keyboardType,
+            style: TextStyle(
+              fontSize: 15,
+              color: NeumorphicColors.getTextPrimary(context),
+              fontWeight: FontWeight.w500,
+            ),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 16,
+              ),
+              hintText: 'Enter $label',
+              hintStyle: TextStyle(
+                color: NeumorphicColors.getTextTertiary(context),
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            validator: validator,
+          ),
         ),
       ],
     );

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/app_colors.dart';
+import '../../core/widgets/neumorphic_widgets.dart';
+import '../profile/edit/widgets/gender_selector_widget.dart';
+import '../profile/edit/widgets/profession_selector_widget.dart';
 import 'models/user_profile_model.dart';
 import 'services/firebase_auth_service.dart';
-import 'widgets/auth_background.dart';
-import 'widgets/auth_card.dart';
-import 'widgets/auth_button.dart';
-import 'widgets/auth_text_field.dart';
 import 'widgets/custom_date_picker.dart';
 
+/// Neumorphic Profile Setup Screen
 class ProfileSetupScreen extends StatefulWidget {
   final Map<String, String>? signupData;
 
@@ -46,7 +45,21 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Please select your date of birth'),
-            backgroundColor: AppColors.error,
+            backgroundColor: NeumorphicColors.coral,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+        return;
+      }
+
+      if (_selectedGender == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Please select your gender'),
+            backgroundColor: NeumorphicColors.coral,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -59,15 +72,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
       setState(() => _isLoading = true);
 
       try {
-        final signupData = widget.signupData;
-        if (signupData == null) {
-          throw Exception('Signup data not found');
-        }
+        final user = FirebaseAuthService.currentUser;
+        if (user == null) throw Exception('User not logged in');
 
-        // Create profile model
         final profile = UserProfileModel(
-          name: signupData['name']!,
-          email: signupData['email']!,
+          name: widget.signupData?['name'] ?? user.displayName ?? 'User',
+          email: widget.signupData?['email'] ?? user.email ?? '',
           phone: _phoneController.text.trim(),
           dateOfBirth: _dateOfBirth,
           gender: _selectedGender,
@@ -76,46 +86,27 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
           emergencyContactName: _emergencyNameController.text.trim(),
           emergencyContactRelation: _emergencyRelationController.text.trim(),
           emergencyContactPhone: _emergencyContactController.text.trim(),
+          createdAt: DateTime.now(),
         );
 
-        // Sign up with Firebase
-        await FirebaseAuthService.signUp(
-          email: signupData['email']!,
-          password: signupData['password']!,
-          profile: profile,
-        );
+        await FirebaseAuthService.saveUserProfile(user.uid, profile);
 
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text('Profile created successfully! 🎉'),
-              backgroundColor: AppColors.success,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          );
-
-          // Navigate to home
-          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+          Navigator.pushReplacementNamed(context, '/main');
         }
       } catch (e) {
         if (mounted) {
+          setState(() => _isLoading = false);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(e.toString()),
-              backgroundColor: AppColors.error,
+              content: Text('Error: $e'),
+              backgroundColor: NeumorphicColors.coral,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
           );
-        }
-      } finally {
-        if (mounted) {
-          setState(() => _isLoading = false);
         }
       }
     }
@@ -123,241 +114,263 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final signupData = widget.signupData;
-
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: NeumorphicColors.getBackground(context),
       body: SafeArea(
-        child: Stack(
-          children: [
-            const AuthBackground(),
-            Center(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Header
-                    const Icon(
-                      Icons.person_add_rounded,
-                      size: 60,
-                      color: AppColors.primary,
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Complete Your Profile',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Hello ${signupData?['name'] ?? 'there'}! Let\'s set up your profile',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: AppColors.textSecondary,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 24),
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [_buildAppBar(), _buildForm()],
+        ),
+      ),
+    );
+  }
 
-                    // Form Card
-                    AuthCard(
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // Phone Number
-                            AuthTextField(
-                              controller: _phoneController,
-                              label: 'Phone Number',
-                              hint: '+91 98765 43210',
-                              icon: Icons.phone_outlined,
-                              keyboardType: TextInputType.phone,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your phone number';
-                                }
-                                if (value.length < 10) {
-                                  return 'Please enter a valid phone number';
-                                }
-                                return null;
-                              },
-                            ),
+  SliverAppBar _buildAppBar() {
+    return SliverAppBar(
+      expandedHeight: 100,
+      floating: false,
+      pinned: true,
+      backgroundColor: NeumorphicColors.getBackground(context),
+      elevation: 0,
+      flexibleSpace: FlexibleSpaceBar(
+        centerTitle: true,
+        title: Text(
+          'Complete Your Profile',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: NeumorphicColors.getTextPrimary(context),
+          ),
+        ),
+      ),
+    );
+  }
 
-                            const SizedBox(height: 16),
+  Widget _buildForm() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildSectionHeader('Personal Information', Icons.person_outline),
+              const SizedBox(height: 16),
 
-                            // Date of Birth Picker
-                            CustomDatePicker(
-                              label: 'Date of Birth',
-                              hint: 'Select your date of birth',
-                              selectedDate: _dateOfBirth,
-                              onDateSelected: (date) {
-                                setState(() => _dateOfBirth = date);
-                              },
-                            ),
+              // Phone
+              _buildTextField(
+                controller: _phoneController,
+                label: 'Phone Number',
+                icon: Icons.phone_outlined,
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your phone number';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
 
-                            const SizedBox(height: 16),
+              // Date of Birth
+              CustomDatePicker(
+                selectedDate: _dateOfBirth,
+                onDateSelected: (date) {
+                  setState(() => _dateOfBirth = date);
+                },
+                label: 'Date of Birth',
+                hint: 'Select your date of birth',
+              ),
+              const SizedBox(height: 16),
 
-                            // Gender Dropdown
-                            DropdownButtonFormField<String>(
-                              decoration: InputDecoration(
-                                labelText: 'Gender',
-                                hintText: 'Select your gender',
-                                prefixIcon: const Icon(Icons.person_outline),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                    color: AppColors.border,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(
-                                    color: AppColors.primary,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              items: ['Male', 'Female', 'Other']
-                                  .map(
-                                    (gender) => DropdownMenuItem(
-                                      value: gender,
-                                      child: Text(gender),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChanged: (value) {
-                                setState(() => _selectedGender = value);
-                              },
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please select your gender';
-                                }
-                                return null;
-                              },
-                            ),
+              // Gender Selector
+              GenderSelectorWidget(
+                selectedGender: _selectedGender,
+                onGenderSelected: (gender) {
+                  setState(() => _selectedGender = gender);
+                },
+              ),
+              const SizedBox(height: 16),
 
-                            const SizedBox(height: 16),
+              // Profession Selector
+              ProfessionSelectorWidget(
+                selectedProfession: _professionController.text.isEmpty
+                    ? null
+                    : _professionController.text,
+                gender: _selectedGender ?? 'Other',
+                onProfessionSelected: (profession) {
+                  if (profession != null) {
+                    setState(() {
+                      _professionController.text = profession;
+                    });
+                  }
+                },
+              ),
+              const SizedBox(height: 16),
 
-                            // Profession
-                            AuthTextField(
-                              controller: _professionController,
-                              label: 'Profession',
-                              hint: 'e.g., Student, Engineer, Doctor',
-                              icon: Icons.work_outline,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your profession';
-                                }
-                                return null;
-                              },
-                            ),
+              // Address
+              _buildTextField(
+                controller: _addressController,
+                label: 'Address (Optional)',
+                icon: Icons.location_on_outlined,
+                maxLines: 3,
+              ),
+              const SizedBox(height: 32),
 
-                            const SizedBox(height: 16),
+              _buildSectionHeader(
+                'Emergency Contact',
+                Icons.emergency_outlined,
+              ),
+              const SizedBox(height: 16),
 
-                            // Address
-                            AuthTextField(
-                              controller: _addressController,
-                              label: 'Address',
-                              hint: 'Your full address',
-                              icon: Icons.location_on_outlined,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your address';
-                                }
-                                return null;
-                              },
-                            ),
+              // Emergency Name
+              _buildTextField(
+                controller: _emergencyNameController,
+                label: 'Contact Name',
+                icon: Icons.person_outline,
+              ),
+              const SizedBox(height: 16),
 
-                            const SizedBox(height: 24),
+              // Emergency Relation
+              _buildTextField(
+                controller: _emergencyRelationController,
+                label: 'Relation',
+                icon: Icons.family_restroom_outlined,
+              ),
+              const SizedBox(height: 16),
 
-                            // Emergency Contact Section Header
-                            const Text(
-                              'Emergency Contact Details',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
+              // Emergency Phone
+              _buildTextField(
+                controller: _emergencyContactController,
+                label: 'Contact Phone',
+                icon: Icons.phone_in_talk_outlined,
+                keyboardType: TextInputType.phone,
+              ),
+              const SizedBox(height: 32),
 
-                            // Emergency Contact Name
-                            AuthTextField(
-                              controller: _emergencyNameController,
-                              label: 'Emergency Contact Name',
-                              hint: 'Full name',
-                              icon: Icons.person_outline,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter emergency contact name';
-                                }
-                                return null;
-                              },
-                            ),
-
-                            const SizedBox(height: 16),
-
-                            // Emergency Contact Relation
-                            AuthTextField(
-                              controller: _emergencyRelationController,
-                              label: 'Relation',
-                              hint: 'e.g., Father, Mother, Spouse',
-                              icon: Icons.family_restroom_outlined,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter relation';
-                                }
-                                return null;
-                              },
-                            ),
-
-                            const SizedBox(height: 16),
-
-                            // Emergency Contact Phone
-                            AuthTextField(
-                              controller: _emergencyContactController,
-                              label: 'Emergency Contact Phone',
-                              hint: '+91 98765 43210',
-                              icon: Icons.phone_outlined,
-                              keyboardType: TextInputType.phone,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter emergency contact phone';
-                                }
-                                if (value.length < 10) {
-                                  return 'Please enter a valid phone number';
-                                }
-                                return null;
-                              },
-                            ),
-
-                            const SizedBox(height: 24),
-
-                            // Complete Button
-                            AuthButton(
-                              text: 'Complete Profile',
-                              onPressed: _handleComplete,
-                              isLoading: _isLoading,
-                            ),
+              // Complete Button
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: _isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: NeumorphicColors.purple,
+                        ),
+                      )
+                    : NeumorphicButton(
+                        label: 'Complete Setup',
+                        onTap: _handleComplete,
+                        gradient: const LinearGradient(
+                          colors: [
+                            NeumorphicColors.purple,
+                            NeumorphicColors.blue,
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 32),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title, IconData icon) {
+    return Row(
+      children: [
+        NeumorphicContainer(
+          width: 40,
+          height: 40,
+          child: Icon(icon, color: NeumorphicColors.purple, size: 20),
+        ),
+        const SizedBox(width: 12),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: NeumorphicColors.getTextPrimary(context),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    TextInputType? keyboardType,
+    int maxLines = 1,
+    String? Function(String?)? validator,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 8),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              color: NeumorphicColors.getTextSecondary(context),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: NeumorphicColors.getBackground(context),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: isDark
+                    ? Colors.black.withValues(alpha: 0.6)
+                    : Colors.black.withValues(alpha: 0.2),
+                offset: const Offset(6, 6),
+                blurRadius: 12,
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.05)
+                    : Colors.white.withValues(alpha: 0.9),
+                offset: const Offset(-6, -6),
+                blurRadius: 12,
+                spreadRadius: 0,
+              ),
+            ],
+          ),
+          child: TextFormField(
+            controller: controller,
+            keyboardType: keyboardType,
+            maxLines: maxLines,
+            style: TextStyle(
+              fontSize: 15,
+              color: NeumorphicColors.getTextPrimary(context),
+              fontWeight: FontWeight.w500,
+            ),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 16,
+              ),
+              hintText: 'Enter $label',
+              hintStyle: TextStyle(
+                color: NeumorphicColors.getTextTertiary(context),
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            validator: validator,
+          ),
+        ),
+      ],
     );
   }
 }
