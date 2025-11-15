@@ -32,6 +32,8 @@ class _BreathingExerciseTabState extends State<BreathingExerciseTab>
     });
 
     _controller.addStatusListener((status) {
+      if (!_isRunning) return;
+
       if (status == AnimationStatus.completed) {
         _controller.reverse();
         if (mounted) {
@@ -56,19 +58,25 @@ class _BreathingExerciseTabState extends State<BreathingExerciseTab>
   }
 
   void _toggleBreathing() {
-    setState(() {
-      _isRunning = !_isRunning;
-      if (_isRunning) {
-        _breathCount = 0;
-        _phase = 'Inhale';
-        _progress = 0.0;
-        _controller.forward();
-      } else {
+    if (_isRunning) {
+      // Stopping
+      setState(() {
+        _isRunning = false;
         _controller.stop();
         _controller.reset();
         _progress = 0.0;
-      }
-    });
+        _phase = 'Inhale';
+      });
+    } else {
+      // Starting
+      setState(() {
+        _isRunning = true;
+        _breathCount = 0;
+        _phase = 'Inhale';
+        _progress = 0.0;
+      });
+      _controller.forward();
+    }
   }
 
   @override
@@ -133,28 +141,10 @@ class _BreathingExerciseTabState extends State<BreathingExerciseTab>
                 width: 200,
                 height: 56,
                 decoration: BoxDecoration(
-                  gradient: _isRunning
-                      ? const LinearGradient(
-                          colors: [NeumorphicColors.coral, Color(0xFFE51A1A)],
-                        )
-                      : const LinearGradient(
-                          colors: [
-                            NeumorphicColors.mint,
-                            NeumorphicColors.blue,
-                          ],
-                        ),
+                  color: _isRunning
+                      ? NeumorphicColors.coral
+                      : NeumorphicColors.mint,
                   borderRadius: BorderRadius.circular(28),
-                  boxShadow: [
-                    BoxShadow(
-                      color:
-                          (_isRunning
-                                  ? NeumorphicColors.coral
-                                  : NeumorphicColors.mint)
-                              .withValues(alpha: 0.4),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -218,21 +208,6 @@ class _BreathingExerciseTabState extends State<BreathingExerciseTab>
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Outer glow
-          Container(
-            width: 220,
-            height: 220,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: NeumorphicColors.mint.withValues(alpha: 0.3),
-                  blurRadius: 40,
-                  spreadRadius: 10,
-                ),
-              ],
-            ),
-          ),
           // Inner neumorphic circle
           NeumorphicContainer(
             width: 200,
@@ -304,34 +279,9 @@ class _BreathingProgressPainter extends CustomPainter {
     canvas.drawCircle(center, radius, trackPaint);
 
     if (progress > 0) {
-      // Progress gradient
-      final rect = Rect.fromCircle(center: center, radius: radius);
-      final gradient = SweepGradient(
-        startAngle: -math.pi / 2,
-        endAngle: -math.pi / 2 + (2 * math.pi * progress),
-        colors: const [Color(0xFF00CDB7), Color(0xFF7FB8FF), Color(0xFF8B7FFF)],
-        stops: const [0.0, 0.5, 1.0],
-      );
-
-      // Outer glow
-      final glowPaint = Paint()
-        ..shader = gradient.createShader(rect)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = strokeWidth + 6
-        ..strokeCap = StrokeCap.round
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
-
-      canvas.drawArc(
-        Rect.fromCircle(center: center, radius: radius),
-        -math.pi / 2,
-        2 * math.pi * progress,
-        false,
-        glowPaint,
-      );
-
       // Main progress
       final progressPaint = Paint()
-        ..shader = gradient.createShader(rect)
+        ..color = NeumorphicColors.mint
         ..style = PaintingStyle.stroke
         ..strokeWidth = strokeWidth
         ..strokeCap = StrokeCap.round;

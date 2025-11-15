@@ -37,55 +37,27 @@ class _AboutScreenState extends State<AboutScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: NeumorphicColors.getBackground(context),
-      body: FadeTransition(
-        opacity: _fadeAnimation,
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            _buildAppBar(context),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    _buildHeroSection(),
-                    const SizedBox(height: 30),
-                    _buildMissionSection(),
-                    const SizedBox(height: 30),
-                    _buildFeaturesSection(),
-                    const SizedBox(height: 30),
-                    _buildTechStackSection(),
-                    const SizedBox(height: 30),
-                    _buildTeamSection(),
-                    const SizedBox(height: 30),
-                    _buildContactSection(),
-                    const SizedBox(height: 30),
-                    _buildVersionInfo(),
-                    const SizedBox(height: 20),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    print('🟢 [ABOUT SCREEN] Building About Screen');
+    print(
+      '🟢 [ABOUT SCREEN] Background color: ${NeumorphicColors.getBackground(context)}',
     );
-  }
 
-  Widget _buildAppBar(BuildContext context) {
-    return SliverAppBar(
-      expandedHeight: 120,
-      floating: false,
-      pinned: true,
-      backgroundColor: NeumorphicColors.getBackground(context),
-      elevation: 0,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: NeumorphicColors.textPrimary),
-        onPressed: () => Navigator.pop(context),
-      ),
-      flexibleSpace: FlexibleSpaceBar(
+    return Scaffold(
+      backgroundColor: NeumorphicColors.background,
+      appBar: AppBar(
+        backgroundColor: NeumorphicColors.background,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: NeumorphicColors.textPrimary,
+          ),
+          onPressed: () {
+            print('🟢 [ABOUT SCREEN] Back button pressed');
+            Navigator.pop(context);
+            print('🟢 [ABOUT SCREEN] Navigation popped');
+          },
+        ),
         title: const Text(
           'About DEVRITI',
           style: TextStyle(
@@ -94,6 +66,29 @@ class _AboutScreenState extends State<AboutScreen>
           ),
         ),
         centerTitle: true,
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              _buildHeroSection(),
+              const SizedBox(height: 30),
+              _buildMissionSection(),
+              const SizedBox(height: 30),
+              _buildFeaturesSection(),
+              const SizedBox(height: 30),
+              _buildTechStackSection(),
+              const SizedBox(height: 30),
+              _buildTeamSection(),
+              const SizedBox(height: 30),
+              _buildContactSection(),
+              const SizedBox(height: 30),
+              _buildVersionInfo(),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -106,18 +101,11 @@ class _AboutScreenState extends State<AboutScreen>
           Container(
             width: 100,
             height: 100,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 colors: [NeumorphicColors.purple, NeumorphicColors.blue],
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: NeumorphicColors.purple.withValues(alpha: 0.4),
-                  blurRadius: 20,
-                  spreadRadius: 5,
-                ),
-              ],
             ),
             child: const Icon(
               Icons.favorite_rounded,
@@ -184,9 +172,7 @@ class _AboutScreenState extends State<AboutScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [NeumorphicColors.mint, NeumorphicColors.blue],
-                  ),
+                  color: NeumorphicColors.mint,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(Icons.flag_rounded, color: Colors.white),
@@ -226,9 +212,7 @@ class _AboutScreenState extends State<AboutScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [NeumorphicColors.coral, NeumorphicColors.orange],
-                  ),
+                  color: NeumorphicColors.coral,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(Icons.star_rounded, color: Colors.white),
@@ -347,9 +331,7 @@ class _AboutScreenState extends State<AboutScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [NeumorphicColors.blue, NeumorphicColors.purple],
-                  ),
+                  color: NeumorphicColors.blue,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(Icons.code_rounded, color: Colors.white),
@@ -424,9 +406,7 @@ class _AboutScreenState extends State<AboutScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [NeumorphicColors.orange, NeumorphicColors.coral],
-                  ),
+                  color: NeumorphicColors.orange,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(Icons.people_rounded, color: Colors.white),
@@ -449,11 +429,9 @@ class _AboutScreenState extends State<AboutScreen>
                 Container(
                   width: 80,
                   height: 80,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: const LinearGradient(
-                      colors: [NeumorphicColors.purple, NeumorphicColors.blue],
-                    ),
+                    color: NeumorphicColors.purple,
                   ),
                   child: const Icon(
                     Icons.favorite,
@@ -505,9 +483,7 @@ class _AboutScreenState extends State<AboutScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [NeumorphicColors.mint, NeumorphicColors.blue],
-                  ),
+                  color: NeumorphicColors.mint,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(

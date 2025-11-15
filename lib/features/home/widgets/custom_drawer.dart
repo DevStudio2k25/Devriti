@@ -5,6 +5,7 @@ import '../../../core/widgets/neumorphic_widgets.dart';
 import '../../../shared/providers/language_provider.dart';
 import '../../auth/services/firebase_auth_service.dart';
 import '../../auth/models/user_profile_model.dart';
+import '../../about/about_screen.dart';
 
 /// Neumorphic Redesigned Custom Drawer
 class CustomDrawer extends StatefulWidget {
@@ -113,13 +114,27 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     title: 'Export Data',
                     subtitle: 'Coming Soon',
                     onTap: () {
+                      print('🔵 [EXPORT DATA] Button clicked');
+                      final messenger = ScaffoldMessenger.of(context);
                       Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Feature coming soon! 🚀'),
-                          behavior: SnackBarBehavior.floating,
-                        ),
-                      );
+                      print('🔵 [EXPORT DATA] Drawer closed');
+                      Future.delayed(const Duration(milliseconds: 300), () {
+                        print('🔵 [EXPORT DATA] Showing snackbar');
+                        messenger.showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              'Feature coming soon! 🚀',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        );
+                        print('🔵 [EXPORT DATA] Snackbar shown');
+                      });
                     },
                     color: NeumorphicColors.blue,
                   ),
@@ -133,8 +148,26 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     title: 'About DEVRITI',
                     subtitle: 'App information',
                     onTap: () {
+                      print('🟢 [ABOUT] Button clicked');
+                      final navigator = Navigator.of(context);
                       Navigator.pop(context);
-                      Navigator.pushNamed(context, '/about');
+                      print('🟢 [ABOUT] Drawer closed');
+                      Future.delayed(const Duration(milliseconds: 300), () {
+                        print('🟢 [ABOUT] Navigating to About screen');
+                        try {
+                          navigator.push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                print('🟢 [ABOUT] Building AboutScreen');
+                                return const AboutScreen();
+                              },
+                            ),
+                          );
+                          print('🟢 [ABOUT] Navigation successful');
+                        } catch (e) {
+                          print('❌ [ABOUT] Navigation error: $e');
+                        }
+                      });
                     },
                     color: NeumorphicColors.coral,
                   ),

@@ -16,116 +16,133 @@ class DoctorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isAvailable = professional['available'] as bool;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: NeumorphicCard(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.all(20),
+        child: Row(
           children: [
-            Row(
+            // Avatar with status indicator
+            Stack(
               children: [
                 NeumorphicContainer(
                   width: 70,
                   height: 70,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          NeumorphicColors.blue,
-                          NeumorphicColors.purple,
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: NeumorphicColors.blue.withValues(alpha: 0.3),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        professional['name'][4],
-                        style: const TextStyle(
-                          fontSize: 28,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  isCircle: true,
+                  child: Center(
+                    child: Text(
+                      professional['name'][4],
+                      style: const TextStyle(
+                        fontSize: 28,
+                        color: NeumorphicColors.blue,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                Positioned(
+                  bottom: 2,
+                  right: 2,
+                  child: Container(
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: isAvailable
+                          ? NeumorphicColors.mint
+                          : NeumorphicColors.coral,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: NeumorphicColors.card,
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(width: 16),
+            // Doctor Info
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    professional['name'],
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: NeumorphicColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    professional['specialization'],
+                    style: const TextStyle(
+                      color: NeumorphicColors.textSecondary,
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
                     children: [
-                      Text(
-                        professional['name'],
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: NeumorphicColors.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        professional['specialization'],
-                        style: const TextStyle(
-                          color: NeumorphicColors.textSecondary,
-                          fontSize: 13,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 6,
+                          horizontal: 8,
+                          vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: professional['available']
-                                ? [
-                                    NeumorphicColors.mint.withValues(
-                                      alpha: 0.3,
-                                    ),
-                                    NeumorphicColors.mint.withValues(
-                                      alpha: 0.1,
-                                    ),
-                                  ]
-                                : [
-                                    NeumorphicColors.textTertiary.withValues(
-                                      alpha: 0.2,
-                                    ),
-                                    NeumorphicColors.textTertiary.withValues(
-                                      alpha: 0.1,
-                                    ),
-                                  ],
+                          color: NeumorphicColors.orange.withValues(
+                            alpha: 0.15,
                           ),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(6),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
-                              Icons.circle,
-                              size: 8,
-                              color: professional['available']
-                                  ? NeumorphicColors.mint
-                                  : NeumorphicColors.textTertiary,
+                            const Icon(
+                              Icons.star_rounded,
+                              size: 12,
+                              color: NeumorphicColors.orange,
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              professional['available'] ? 'Available' : 'Busy',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                color: professional['available']
-                                    ? NeumorphicColors.mint
-                                    : NeumorphicColors.textTertiary,
+                              '${professional['rating']}',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: NeumorphicColors.orange,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: NeumorphicColors.blue.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.work_outline_rounded,
+                              size: 12,
+                              color: NeumorphicColors.blue,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              professional['experience'],
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: NeumorphicColors.blue,
                               ),
                             ),
                           ],
@@ -133,132 +150,26 @@ class DoctorCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                _buildStatItem(
-                  Icons.star_rounded,
-                  '${professional['rating']}',
-                  NeumorphicColors.orange,
+            // Call Button
+            GestureDetector(
+              onTap: onCall,
+              child: NeumorphicContainer(
+                width: 50,
+                height: 50,
+                isCircle: true,
+                child: const Icon(
+                  Icons.phone_rounded,
+                  color: NeumorphicColors.blue,
+                  size: 22,
                 ),
-                const SizedBox(width: 20),
-                _buildStatItem(
-                  Icons.work_outline_rounded,
-                  professional['experience'],
-                  NeumorphicColors.blue,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: onCall,
-                    child: NeumorphicContainer(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.phone_rounded,
-                            size: 18,
-                            color: NeumorphicColors.blue,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            l10n.call,
-                            style: const TextStyle(
-                              color: NeumorphicColors.blue,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text('Booking feature coming soon'),
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor: NeumorphicColors.card,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            NeumorphicColors.blue,
-                            NeumorphicColors.purple,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: NeumorphicColors.blue.withValues(alpha: 0.4),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.calendar_today_rounded,
-                            size: 18,
-                            color: Colors.white,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            l10n.bookOnline,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildStatItem(IconData icon, String text, Color color) {
-    return Row(
-      children: [
-        Icon(icon, size: 18, color: color),
-        const SizedBox(width: 4),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: NeumorphicColors.textSecondary.withValues(alpha: 0.9),
-          ),
-        ),
-      ],
     );
   }
 }

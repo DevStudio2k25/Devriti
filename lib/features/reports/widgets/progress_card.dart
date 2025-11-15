@@ -26,11 +26,7 @@ class ProgressCard extends StatelessWidget {
             GlowingProgressRing(
               progress: 0.75,
               size: 180,
-              colors: const [
-                NeumorphicColors.purple,
-                NeumorphicColors.blue,
-                NeumorphicColors.mint,
-              ],
+              colors: const [NeumorphicColors.blue, NeumorphicColors.blue],
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -59,12 +55,7 @@ class ProgressCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    NeumorphicColors.purple.withValues(alpha: 0.2),
-                    NeumorphicColors.blue.withValues(alpha: 0.2),
-                  ],
-                ),
+                color: NeumorphicColors.blue.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Text(

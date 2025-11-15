@@ -4,7 +4,6 @@ import '../../../core/widgets/neumorphic_widgets.dart';
 import '../../../core/localization/app_localizations.dart';
 import '../widgets/doctor_app_bar.dart';
 import '../widgets/doctor_header.dart';
-import '../widgets/filter_chips.dart';
 import '../widgets/doctor_card.dart';
 import '../widgets/motivational_footer.dart';
 
@@ -73,6 +72,50 @@ class _DoctorConnectScreenState extends State<DoctorConnectScreen> {
     }
   }
 
+  Widget _buildFilterChip(String label, IconData icon) {
+    final isSelected = _selectedFilter == label;
+    return GestureDetector(
+      onTap: () => setState(() => _selectedFilter = label),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? NeumorphicColors.blue.withValues(alpha: 0.15)
+              : NeumorphicColors.card,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected
+                ? NeumorphicColors.blue
+                : NeumorphicColors.textTertiary.withValues(alpha: 0.2),
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: isSelected
+                  ? NeumorphicColors.blue
+                  : NeumorphicColors.textTertiary,
+              size: 18,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                color: isSelected
+                    ? NeumorphicColors.blue
+                    : NeumorphicColors.textSecondary,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -83,12 +126,26 @@ class _DoctorConnectScreenState extends State<DoctorConnectScreen> {
       body: CustomScrollView(
         slivers: [
           DoctorHeader(l10n: l10n),
-          FilterChips(
-            selectedFilter: _selectedFilter,
-            onFilterChanged: (filter) {
-              setState(() => _selectedFilter = filter);
-            },
-            l10n: l10n,
+          // Filter Chips
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _buildFilterChip('All', Icons.people_rounded),
+                    const SizedBox(width: 12),
+                    _buildFilterChip(l10n.counsellor, Icons.psychology_rounded),
+                    const SizedBox(width: 12),
+                    _buildFilterChip(
+                      l10n.psychiatrist,
+                      Icons.local_hospital_rounded,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),

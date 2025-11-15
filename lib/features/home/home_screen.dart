@@ -13,9 +13,8 @@ import 'widgets/week_review_chart.dart';
 /// Modern Neumorphic Home Screen with 3D Depth Effects
 class HomeScreen extends StatefulWidget {
   final bool showBackButton;
-  final VoidCallback? onMenuTap;
 
-  const HomeScreen({super.key, this.showBackButton = false, this.onMenuTap});
+  const HomeScreen({super.key, this.showBackButton = false});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -113,13 +112,7 @@ class _HomeScreenState extends State<HomeScreen>
                 onTap: () => Navigator.pop(context),
               ),
             )
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: NeumorphicButton(
-                icon: Icons.menu_rounded,
-                onTap: widget.onMenuTap ?? () {},
-              ),
-            ),
+          : null,
       actions: const [SizedBox(width: 16)],
     );
   }
