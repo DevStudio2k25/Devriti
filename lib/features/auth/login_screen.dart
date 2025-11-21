@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen>
         );
 
         if (mounted) {
-          Navigator.pushReplacementNamed(context, '/main');
+          Navigator.pushReplacementNamed(context, '/');
         }
       } catch (e) {
         if (mounted) {
