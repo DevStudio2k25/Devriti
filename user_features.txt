@@ -1,0 +1,303 @@
+DEVRITI APP - USER FEATURES
+
+═══════════════════════════════════════════════════════════════
+
+📱 SPLASH SCREEN
+• Animated logo display
+• Brand introduction
+
+═══════════════════════════════════════════════════════════════
+
+🔐 LOGIN & SIGNUP
+
+Login Screen:
+• Email and password login
+• Google Sign-in option
+• Forgot password link
+
+Signup Screen:
+• Create account with email/password
+• Multi-step profile setup wizard
+
+Password Reset:
+• Reset password via email
+
+Profile Setup:
+• Enter name, age, gender
+• Select profession
+• Add date of birth
+• Add phone number
+• Add address
+• Upload profile photo from camera or gallery
+• Add emergency contact (name, phone, relation)
+
+═══════════════════════════════════════════════════════════════
+
+🏠 HOME SCREEN
+
+• Welcome card with greeting
+• AI support quick access button
+• Motivational quotes (random daily)
+• Dashboard grid with shortcuts to all features
+• Daily routine preview
+• Recent insights display
+• Today's activities list with completion checkboxes
+
+═══════════════════════════════════════════════════════════════
+
+💬 AI CHAT SCREEN
+
+• Chat with AI companion (Gemini 2.0)
+• Real-time emotion detection from your messages
+• Crisis detection with immediate helpline suggestions
+• Context-aware responses based on your mood
+• Smart suggestions (sleep tips, anxiety help, family advice, study tips)
+• Typing indicators
+• Welcome message on first use
+• View chat history
+• Create new chat
+• Resume previous conversations
+• Clear all chat history
+• About AI information
+
+═══════════════════════════════════════════════════════════════
+
+🧘 SELF-CARE SCREEN
+
+Breathing Exercises Tab:
+• 4-7-8 breathing technique
+• Box breathing exercise
+• Guided animations with visual feedback
+
+Relaxation Sounds Tab:
+• Play rain sounds
+• Play ocean waves
+• Play forest ambience
+• Play white noise
+• Play meditation music
+• Volume control
+• Loop playback
+• Background playback
+
+═══════════════════════════════════════════════════════════════
+
+🚨 EMERGENCY SCREEN
+
+• Animated SOS button (pulsing)
+• One-tap emergency contact calling
+• Quick actions:
+  - Call emergency contact
+  - Message emergency contact
+  - Find nearest hospital
+  - Call mental health helpline
+• Pre-configured helplines:
+  - AASRA: 9152987821
+  - Vandrevala Foundation: 9999666555
+  - iCall: 9152987821
+  - Snehi: 9152987821
+• Edit emergency contact details
+• Warning banner for crisis
+• Motivational messages
+
+═══════════════════════════════════════════════════════════════
+
+👨‍⚕️ DOCTOR CONNECT SCREEN
+
+• View doctor/counselor directory
+• Filter by specialization:
+  - Psychiatrist
+  - Clinical Psychologist
+  - Counselling Psychologist
+  - Child Psychologist
+• View doctor profiles:
+  - Name
+  - Specialization
+  - Years of experience
+  - Rating
+  - Availability status
+• One-tap calling to doctors
+• Filter chips for easy search
+
+═══════════════════════════════════════════════════════════════
+
+📅 DAILY ROUTINE SCREEN
+
+• View routines by time:
+  - Morning routines
+  - Afternoon routines
+  - Evening routines
+• Add new routine items
+• Mark routines as complete/incomplete
+• View routine statistics:
+  - Completed count
+  - Progress percentage
+  - Remaining tasks
+• Time-based scheduling
+• Custom icons for each routine
+
+═══════════════════════════════════════════════════════════════
+
+📊 REPORTS & ANALYTICS SCREEN
+
+• Weekly review charts
+• Progress cards showing improvement
+• Insights cards with recommendations
+• Stats grid with key metrics
+• Generate PDF reports
+• Share reports
+
+═══════════════════════════════════════════════════════════════
+
+👤 PROFILE SCREEN
+
+View Profile:
+• Profile photo
+• Personal information (name, age, gender, profession, date of birth, phone, address)
+• Emergency contact details (name, phone, relation)
+
+Edit Profile:
+• Update all personal details
+• Change profile photo
+• Update emergency contact
+• Save changes
+
+Actions:
+• Edit profile button
+• Logout button
+
+═══════════════════════════════════════════════════════════════
+
+⚙️ SETTINGS SCREEN
+
+Appearance:
+• Dark mode toggle (coming soon)
+
+Language:
+• Switch between English and Hindi
+• Language preference saved
+
+Data:
+• Export data (coming soon)
+• Clear data (coming soon)
+
+About:
+• About DEVRITI
+• Privacy policy (coming soon)
+• Terms of service (coming soon)
+• Version information (1.0.0)
+• Copyright information
+
+═══════════════════════════════════════════════════════════════
+
+ℹ️ ABOUT SCREEN
+
+• App information
+• Version details
+• Developer credits
+
+═══════════════════════════════════════════════════════════════
+
+🎨 GENERAL APP FEATURES
+
+Navigation:
+• Bottom navigation bar with 5 tabs (Home, Chat, Self-Care, Emergency, Profile)
+
+Theme:
+• Light mode
+• Dark mode
+• Smooth theme transitions
+
+Design:
+• Neumorphic 3D design style
+• Custom color palette (Purple, Mint, Coral, Blue, Orange)
+• Smooth animations and transitions
+• Loading indicators
+• Snackbar notifications
+• Confirmation dialogs
+
+Accessibility:
+• High contrast mode
+• Large touch targets
+• Color blind friendly design
+
+Performance:
+• Works offline (except AI chat)
+• Fast loading with cached images
+• Smooth scrolling
+
+═══════════════════════════════════════════════════════════════
+
+
+
+
+
+🔮 UPCOMING FEATURES
+
+AI Chat Assistant Profile System:
+• View AI assistant's profile
+• AI can have two personalities: Male or Female
+• Switch between Male and Female AI modes
+• AI profile shows name, avatar, and short description
+• Conversation tone changes according to selected personality
+• Switching personality does NOT delete previous chats
+• Personality preference saved for future sessions
+
+YouTube Exercise & Wellness Video Page:
+• Dedicated page for recommended exercise and wellness videos
+• Videos fetched directly from YouTube
+• Categories: Yoga, Meditation, Stretching, Breathing Exercises, Stress Relief
+• Play videos inside the app using YouTube player
+• Auto-suggestions based on user mood
+• Explore more similar videos
+• No login required to watch
+• Clean and distraction-free video layout
+
+Breathing Lab – Advanced Breathing Techniques:
+• 4–4–4 Box Breathing
+• 4–7–8 Deep Relaxation Breathing
+• Resonant (Coherent) Breathing
+• Calm Breathing (smooth inhale–exhale)
+• Guided animations for each breathing pattern
+• Visual timers and pacing indicators
+• Designed to reduce anxiety, depression heaviness, and stress
+• Works offline
+• Minimal UI for a calming experience
+
+Advanced Daily Routine Tracker System:
+• Streak tracking system (daily/weekly streaks)
+• Routine timers (optional countdown for each routine)
+• Routine categories (Health, Mind, Work, Personal, Custom)
+• Reminder notifications for each routine
+• Monthly progress calendar showing completed days
+• Routine-specific notes (user can add small notes per task)
+• Difficulty levels for routines (Easy, Medium, Hard)
+• Weekly goal system (customizable routine goals)
+• AI-powered routine suggestions based on mood and chat activity
+• Achievements & badges for motivation
+• Progress summary card
+• Clean, structured UI for quick task management
+
+Daily Healing Question (Question of the Day):
+• Every day the app shows one self-therapy style healing question
+• Examples: "What made you smile today?", "What is one thing you handled well?", "What are you grateful for?"
+• User writes a small answer
+• AI reads the answer and gives a soft, comforting reply
+• Answers saved in a small daily log
+• Helps users express emotions and reflect
+• Increases emotional awareness and long-term healing
+
+Emotion Wheel – "Choose Your Feeling" System:
+• A dedicated page with an emotion wheel UI
+• User selects their current emotion from options like: Anxious, Stressed, Lonely, Overwhelmed, Sad, Tired, Angry
+• After selecting an emotion, the app shows helpful shortcuts: "Try Calm Breathing", "Talk to AI", "Try a grounding exercise"
+• Emotion selection saved for reports and insights
+• Creates personalized healing flow for each user
+
+AI Mood Booster Cards:
+• AI generates one "Mood Booster Card" daily
+• Cards include small healing mini-tasks such as: "Try this small task", "You handled yesterday well", "Take 5 deep breaths", "Maybe rest a little today"
+• User taps the card → completes a 5–10 second healing activity
+• App adjusts booster cards based on user mood history
+• Helps keep the user motivated and emotionally supported
+
+═══════════════════════════════════════════════════════════════

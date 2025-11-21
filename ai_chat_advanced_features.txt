@@ -1,0 +1,106 @@
+AI CHAT ADVANCED FEATURES
+
+═══════════════════════════════════════════════════════════════
+
+1. AI EMOTION HISTORY TIMELINE
+
+• Tracks emotional patterns over days/weeks
+• Shows mood graph and emotional changes
+• Highlights calm, stressful, and low days
+• Helps user understand long-term emotional behaviour
+
+═══════════════════════════════════════════════════════════════
+
+2. AI CUSTOM PERSONALITIES SYSTEM
+
+• User can switch between multiple AI personalities
+• Personalities include:
+  - Calm & Gentle
+  - Friendly & Supportive
+  - Motivational Coach
+  - Therapist Tone
+  - Big Brother/Big Sister vibe
+• Each personality has unique tone, style, and message type
+
+═══════════════════════════════════════════════════════════════
+
+3. AI SAFE-SPACE JOURNAL
+
+• User can save private emotions or thoughts
+• Saved notes stored in a secure "safe space" area
+• AI gives gentle reflections on saved thoughts
+
+═══════════════════════════════════════════════════════════════
+
+4. AI CRISIS FRIEND MODE
+
+• Activates soothing conversation tone
+• Slow, comforting replies
+• Designed for panic, anxiety, breakdown moments
+• Validating, soft and caring responses
+
+═══════════════════════════════════════════════════════════════
+
+5. AI MOOD CHALLENGE SYSTEM
+
+• AI provides small healing tasks daily
+• Encourages breathing, hydration, gratitude, or reflection
+• Builds emotional strength and healthy habits
+
+═══════════════════════════════════════════════════════════════
+
+6. AI VOICE CHAT SUPPORT (CALM AUDIO MESSAGES)
+
+• AI can send calm voice responses
+• Includes breathing guidance, comforting phrases
+• Helps users who prefer listening instead of reading
+
+═══════════════════════════════════════════════════════════════
+
+7. AI MEMORY SYSTEM
+
+• Remembers user preferences
+• Stores name, preferred AI tone, routine habits
+• Gives personalized chat experience
+
+═══════════════════════════════════════════════════════════════
+
+8. THREADED MULTI-TOPIC CHAT
+
+• Separate chat threads for different issues
+• Topics: Anxiety, Depression, Family Issues, Sleep Problems, Work Stress
+• Cleaner, more organized emotional support
+
+═══════════════════════════════════════════════════════════════
+
+9. "CALM ME NOW" INSTANT MODE
+
+• One-tap calming chat flow
+• Short, grounding messages
+• Helps user stabilize emotional spikes
+
+═══════════════════════════════════════════════════════════════
+
+10. AI PAST-MESSAGE REFLECTION
+
+• AI reviews past chats to detect emotional patterns
+• Gives gentle insights
+• Suggests improvement tips based on old conversations
+
+═══════════════════════════════════════════════════════════════
+
+11. AI CHAT – HELPFUL FEATURE SUGGESTIONS + PAGE REDIRECT BUTTONS
+
+• When AI is unable to generate a response, chat shows helpful feature suggestions from inside the app
+• Suggestions include: Daily Routine, Self-Care (Breathing / Sounds), Emergency Support, AI Mood Challenges, Doctor Connect (if available)
+• Each suggestion appears inside the chat as an interactive button
+• Tapping the button instantly redirects the user to the respective app page
+• Suggestions are chosen smartly based on:
+  - User's mood
+  - Recent chat context
+  - Emotional intensity
+• Supportive, comforting language used when suggesting actions (e.g., "Take a short break?", "Try breathing for a moment.")
+• Chat history remains intact after returning from the redirected page
+• Ensures emotional safety and strong user support when AI cannot reply
+
+═══════════════════════════════════════════════════════════════
